@@ -1,0 +1,2537 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HÓA 12 ARENA — Phòng thí nghiệm bí ẩn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Lexend:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08111f;
+  --bg2: #0c1829;
+  --panel: #101e32;
+  --panel2: #162943;
+  --card: #12243a;
+  --ink: #edf5ff;
+  --muted: #9fb2ca;
+  --line: #29415d;
+  --track: #1a2f48;
+  --cyan: #55e6df;
+  --cyan-ink: #06151e;
+  --gold: #ffd166;
+  --gold-ink: #2a1a00;
+  --pink: #ff6b9a;
+  --green: #78e08f;
+  --ok-bg: #123d2c;
+  --bad-bg: #3a1a28;
+  --code: #0f1f33;
+  --sh-1: 0 1px 2px rgba(0,0,0,.35);
+  --sh-2: 0 6px 18px rgba(0,0,0,.4);
+  --sh-3: 0 18px 40px rgba(0,0,0,.5);
+  --font-d: 'Lexend', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-b: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+*, *::before, *::after { box-sizing: inherit; }
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at top, #163456 0%, var(--bg) 65%);
+  color: var(--ink);
+  font-family: var(--font-b);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+.wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 14px 16px 64px;
+  position: relative;
+  z-index: 2;
+}
+h1, h2, h3, h4 {
+  font-family: var(--font-d);
+  margin: 0;
+  line-height: 1.22;
+  letter-spacing: -.01em;
+}
+p { margin: 0 0 10px; }
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease, border-color .12s ease, opacity .12s ease;
+}
+button:active:not(:disabled) { transform: translateY(1px); }
+button:focus-visible, summary:focus-visible, select:focus-visible, textarea:focus-visible, input:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+button:disabled { cursor: default; }
+sub, sup { font-size: .72em; line-height: 0; }
+.hidden { display: none !important; }
+
+/* Header */
+.top {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin: 0 -16px 16px;
+  padding: 14px 16px;
+  background: rgba(8, 17, 31, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: 1.05rem;
+  background: none;
+  border: 0;
+  padding: 4px 0;
+  text-align: left;
+  letter-spacing: -.01em;
+}
+.brand span { color: var(--cyan); }
+.hud { display: flex; gap: 8px; }
+.pill {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 13px;
+  font-size: .84rem;
+  white-space: nowrap;
+  box-shadow: var(--sh-1);
+  color: #cfe3f9;
+}
+.pill b { font-family: var(--font-d); color: var(--gold); }
+
+/* Name gate */
+.gate {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(3,9,20,.92); padding: 20px;
+  backdrop-filter: blur(8px);
+}
+.gatebox {
+  width: min(360px, 100%);
+  background: linear-gradient(160deg, #12243a, #0d1b2e);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 28px 22px 22px;
+  text-align: center;
+  box-shadow: var(--sh-3);
+}
+.gatebox h2 { font-size: 1.55rem; margin-bottom: 8px; }
+.gatebox p { color: var(--muted); font-size: .95rem; margin-bottom: 18px; }
+.gatebox input {
+  width: 100%; font: inherit; padding: 12px 14px;
+  border-radius: 12px; border: 1.5px solid var(--line);
+  background: var(--card); color: var(--ink); margin-bottom: 14px;
+  text-align: center;
+}
+.gatebox input:focus { border-color: var(--cyan); outline: none; }
+.gatebox .btn { width: 100%; }
+.gatebox .tiny { font-size: .8rem; color: var(--muted); margin-top: 12px; }
+
+/* Floating AI / Search button */
+.fab {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 20;
+  width: 54px; height: 54px;
+  border-radius: 16px;
+  border: 0;
+  background: linear-gradient(145deg, #2dd4bf, #14b8a6);
+  color: #042f2e;
+  display: grid; place-items: center;
+  box-shadow: 0 8px 24px rgba(20,184,166,.4);
+  cursor: pointer;
+}
+.fab:hover { filter: brightness(1.08); transform: translateY(-2px); }
+.fab svg { width: 24px; height: 24px; }
+
+/* AI panel overlay */
+.aipanel {
+  position: fixed; inset: 0; z-index: 40;
+  background: rgba(3,9,20,.88);
+  display: none; align-items: flex-end; justify-content: center;
+  padding: 12px;
+  backdrop-filter: blur(6px);
+}
+.aipanel.show { display: flex; }
+.aipanel .inner {
+  width: min(520px, 100%);
+  max-height: 88vh;
+  overflow: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 20px 20px 16px 16px;
+  padding: 16px;
+  box-shadow: var(--sh-3);
+}
+.aipanel .ahead {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px;
+}
+.aipanel .ahead h3 { margin: 0; font-size: 1.1rem; }
+
+/* Leaderboard modal */
+.lbmodal {
+  position: fixed; inset: 0; z-index: 45;
+  background: rgba(3,9,20,.9);
+  display: none; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.lbmodal.show { display: flex; }
+.lbmodal .inner {
+  width: min(400px, 100%);
+  max-height: 80vh; overflow: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+}
+.lbrow {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 12px; margin: 6px 0;
+  background: var(--card); border-radius: 10px; border: 1px solid var(--line);
+}
+.lbrow .rank { color: var(--gold); font-weight: 800; font-family: var(--font-d); width: 28px; }
+.lbrow .nm { flex: 1; font-weight: 600; }
+.lbrow .pts { color: var(--cyan); font-weight: 700; }
+
+/* Home */
+.hero { padding: 10px 2px 6px; text-align: center; }
+.hero .eyebrow {
+  color: var(--cyan);
+  font-weight: 800;
+  letter-spacing: 3px;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.hero h1 {
+  font-size: clamp(1.9rem, 8vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.1;
+}
+.hero h1 span { color: var(--cyan); }
+.hero p {
+  color: var(--muted);
+  max-width: 52ch;
+  margin: 12px auto 0;
+  font-size: 1.01rem;
+}
+.grid { display: grid; gap: 12px; margin: 22px 0 14px; }
+.cc {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  background: linear-gradient(145deg, rgba(22, 41, 67, 0.9), rgba(16, 30, 50, 0.9));
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--ac);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: var(--sh-1);
+  backdrop-filter: blur(4px);
+}
+.cc:hover {
+  box-shadow: var(--sh-2);
+  transform: translateY(-2px);
+  border-color: #4e829b;
+}
+.cc h3 { font-size: 1.08rem; font-weight: 700; }
+.cc .sub { color: var(--muted); font-size: .9rem; margin-top: 1px; }
+.cc .pg { color: var(--muted); font-size: .8rem; margin-top: 6px; }
+.tile {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(155deg, var(--ac), color-mix(in srgb, var(--ac) 70%, black));
+  color: var(--acink);
+  position: relative;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: 1.6rem;
+  box-shadow: var(--sh-1);
+}
+.tile small {
+  position: absolute;
+  top: 4px;
+  left: 7px;
+  font-size: .6rem;
+  font-weight: 600;
+  opacity: .85;
+}
+.mixcard {
+  border-style: dashed;
+  background: linear-gradient(145deg, rgba(40, 32, 20, 0.7), rgba(22, 30, 40, 0.85));
+}
+.note {
+  color: var(--muted);
+  font-size: .85rem;
+  margin-top: 18px;
+  padding: 12px 14px;
+  background: var(--code);
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+/* Chapter */
+.link {
+  background: none;
+  border: 0;
+  padding: 6px 2px;
+  color: var(--cyan);
+  font-weight: 600;
+  border-radius: 8px;
+}
+.link:hover { background: var(--code); }
+.chhead { display: flex; gap: 14px; align-items: center; margin: 10px 0 4px; }
+.chhead h2 { font-size: 1.55rem; }
+.chhead p { color: var(--muted); margin: 2px 0 0; font-size: .92rem; }
+.tabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  margin: 16px 0;
+  padding: 4px;
+  background: var(--track);
+  border-radius: 14px;
+  -webkit-overflow-scrolling: touch;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: none;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 10px;
+  padding: 9px 15px;
+  font-weight: 600;
+  font-size: .92rem;
+}
+.tab[aria-selected="true"] {
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: var(--sh-1);
+  border: 1px solid var(--line);
+}
+
+.card {
+  background: linear-gradient(145deg, rgba(22, 41, 67, 0.92), rgba(16, 30, 50, 0.92));
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 12px;
+  box-shadow: var(--sh-1);
+  backdrop-filter: blur(4px);
+}
+details.card { border-left: 4px solid var(--ac); padding: 0; }
+details.card summary {
+  padding: 15px 17px;
+  font-family: var(--font-d);
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+details.card summary::-webkit-details-marker { display: none; }
+details.card summary::after {
+  content: "+";
+  font-weight: 500;
+  color: var(--muted);
+  font-size: 1.2rem;
+  flex: none;
+}
+details.card[open] summary::after { content: "–"; }
+details.card[open] summary { border-bottom: 1px solid var(--line); }
+.lb { padding: 14px 17px 16px; }
+.lb ul { margin: 0 0 10px; padding-left: 20px; }
+.lb li { margin-bottom: 4px; }
+.rx {
+  background: var(--code);
+  border-radius: 10px;
+  padding: 9px 13px;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-size: .95rem;
+  border: 1px solid var(--line);
+}
+.key {
+  border-left: 4px solid var(--gold);
+  background: var(--code);
+  border-radius: 0 10px 10px 0;
+  padding: 9px 13px;
+  margin: 0 0 10px;
+}
+.tw { overflow-x: auto; margin: 0 0 10px; border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td {
+  border: 1px solid var(--line);
+  padding: 7px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+th { background: var(--code); font-weight: 600; }
+
+.btn {
+  display: inline-block;
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-family: var(--font-d);
+  font-weight: 700;
+  background: var(--cyan);
+  color: var(--cyan-ink);
+  box-shadow: var(--sh-1);
+}
+.btn:hover:not(:disabled) { filter: brightness(1.08); box-shadow: var(--sh-2); }
+.btn:disabled { opacity: .5; box-shadow: none; }
+.btn.ghost {
+  background: transparent;
+  border: 1.5px solid var(--line);
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: none;
+}
+.btn.ghost:hover:not(:disabled) { border-color: var(--cyan); color: var(--cyan); }
+.btn.sm { padding: 8px 14px; font-size: .9rem; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.hint { color: var(--muted); font-size: .86rem; }
+
+/* Flashcards + matching */
+.seg { display: flex; gap: 6px; margin-bottom: 12px; }
+.fc {
+  width: 100%;
+  min-height: 180px;
+  text-align: center;
+  display: grid;
+  place-items: center;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+  font-family: var(--font-d);
+  font-size: 1.15rem;
+  line-height: 1.45;
+}
+.fc.back {
+  background: var(--ac);
+  color: var(--acink);
+  border-color: var(--ac);
+  font-family: var(--font-b);
+  font-size: 1.02rem;
+  font-weight: 500;
+}
+.fc small {
+  display: block;
+  color: var(--muted);
+  font-family: var(--font-b);
+  font-size: .8rem;
+  margin-top: 8px;
+}
+.fc.back small { color: inherit; opacity: .75; }
+.prog {
+  height: 6px;
+  border-radius: 99px;
+  background: var(--track);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.prog i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--cyan), #a3ffce);
+  transition: width .3s;
+}
+.mg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mi {
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: .88rem;
+  text-align: left;
+  min-height: 56px;
+  color: var(--ink);
+}
+.mi.sel {
+  border-color: var(--gold);
+  background: #44391e;
+  box-shadow: 0 0 0 2px var(--gold) inset;
+}
+.mi.done {
+  background: var(--ok-bg);
+  border-color: var(--green);
+  opacity: .75;
+}
+.mi.bad {
+  background: var(--bad-bg);
+  border-color: var(--pink);
+  animation: shake .3s;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* Quiz */
+.qmeta {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: .86rem;
+  margin-bottom: 6px;
+}
+.qtext {
+  font-family: var(--font-d);
+  font-weight: 500;
+  font-size: 1.1rem;
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+.opts { display: grid; gap: 10px; }
+.opt {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 11px 13px;
+  color: var(--ink);
+}
+.opt .k {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--track);
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  font-size: .85rem;
+}
+.opt:hover:not(:disabled) { border-color: var(--cyan); }
+.opt.ok { background: var(--ok-bg); border-color: var(--green); }
+.opt.ok .k { background: var(--green); color: #06151e; }
+.opt.bad { background: var(--bad-bg); border-color: var(--pink); }
+.opt.bad .k { background: var(--pink); color: #fff; }
+.tfr {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+.tfr .tg { display: flex; gap: 8px; margin-top: 8px; }
+.tfr .tg button {
+  flex: 1;
+  border: 1.5px solid var(--line);
+  background: transparent;
+  border-radius: 9px;
+  padding: 6px;
+  color: var(--ink);
+}
+.tfr .tg button[aria-pressed="true"] {
+  background: var(--cyan);
+  color: var(--cyan-ink);
+  border-color: var(--cyan);
+}
+.tfr.ok { border-color: var(--green); background: var(--ok-bg); }
+.tfr.bad { border-color: var(--pink); background: var(--bad-bg); }
+.tfr .ex { font-size: .88rem; margin-top: 6px; }
+.sa { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.sa input {
+  flex: 1;
+  min-width: 120px;
+  font: inherit;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+}
+.fb {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--code);
+  font-size: .94rem;
+}
+.fb.ok { background: var(--ok-bg); }
+.fb.bad { background: var(--bad-bg); }
+.big {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: 2.4rem;
+  color: var(--gold);
+}
+
+/* Lab vials */
+.labintro { color: var(--muted); font-size: .94rem; }
+h4 {
+  font-size: .82rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  margin: 20px 0 10px;
+  font-weight: 600;
+}
+.vials {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 4px 0 6px;
+  background: var(--code);
+  border-radius: 16px;
+  padding: 16px 10px 14px;
+  border: 1px solid var(--line);
+}
+.vial { text-align: center; position: relative; }
+.vlabel {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: .88rem;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+.glasswrap { position: relative; width: 100%; max-width: 82px; margin: 0 auto; }
+.glass {
+  position: relative;
+  height: 96px;
+  border: 2.5px solid var(--ink);
+  border-top: none;
+  border-radius: 0 0 22px 22px;
+  background: #0e1c2e;
+  overflow: hidden;
+  box-shadow: inset 0 -3px 6px rgba(0,0,0,.3), 0 2px 4px rgba(0,0,0,.2);
+}
+.glass::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  top: -2.5px;
+  height: 2.5px;
+  background: var(--ink);
+}
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,.5);
+  opacity: 0;
+  pointer-events: none;
+}
+.glass.pour::after { animation: pourflash .7s ease; }
+@keyframes pourflash {
+  0% { opacity: .7; }
+  100% { opacity: 0; }
+}
+.gloss {
+  position: absolute;
+  top: 8%;
+  left: 12%;
+  width: 16%;
+  height: 64%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,.45), rgba(255,255,255,0));
+  pointer-events: none;
+}
+.liquid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0%;
+  background: rgba(85,230,223,.35);
+  transition: height .5s cubic-bezier(.4,0,.2,1), background-color .5s ease;
+}
+.liquid::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  border-radius: 50%;
+  background: inherit;
+  opacity: .9;
+}
+.liquid.filled { height: 60%; }
+.liquid.c-clear { background: rgba(85,230,223,.28); }
+.liquid.c-blue { background: rgba(24,88,214,.8); }
+.liquid.c-violet { background: rgba(63,32,140,.82); }
+.liquid.c-layer {
+  background: linear-gradient(to bottom, rgba(255,209,102,.72) 0 45%, rgba(24,120,132,.42) 45% 100%);
+}
+.ppt {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 0;
+  height: 0;
+  border-radius: 3px 3px 9px 9px;
+  transition: height .5s ease;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.2);
+}
+.ppt.show { height: 26%; }
+.ppt.p-white { background: #e8f0ee; border: 1.5px solid #8aa0a0; }
+.ppt.p-yellow { background: #F3C61B; border: 1.5px solid #B5900E; }
+.ppt.p-brick { background: #B14523; border: 1.5px solid #7C2F16; }
+.ppt.p-blue { background: #1E52C9; border: 1.5px solid #17398F; }
+.ppt.p-curd { background: #EDE4C8; border: 1.5px solid #C2B589; border-radius: 6px; }
+.bubbles { position: absolute; inset: 0; pointer-events: none; }
+.bub-p {
+  position: absolute;
+  bottom: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 0 2px rgba(0,0,0,.2);
+  animation: rise 1.4s ease-in infinite;
+}
+@keyframes rise {
+  0% { transform: translateY(0); opacity: .95; }
+  100% { transform: translateY(-72px); opacity: 0; }
+}
+.mirror {
+  position: absolute;
+  inset: 6px 3px auto 3px;
+  top: 6%;
+  height: 40%;
+  border-radius: 50%/12px;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,.35) 30%, rgba(255,255,255,.9) 50%, rgba(255,255,255,.35) 70%, transparent);
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+.mirror.show { opacity: 1; }
+.litmus {
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-5deg);
+  width: 12px;
+  height: 36px;
+  background: #C9B8E0;
+  border: 1px solid #A996C4;
+  border-radius: 2px;
+  box-shadow: var(--sh-1);
+  transition: background-color .4s ease;
+}
+.litmus.lit-red { background: #D8435A; border-color: #A82E42; }
+.litmus.lit-blue { background: #2F6FC7; border-color: #1F4E92; }
+.vnote {
+  font-size: .78rem;
+  color: var(--ink);
+  margin-top: 9px;
+  min-height: 2.4em;
+  line-height: 1.35;
+}
+.vnote .rn {
+  display: block;
+  color: var(--muted);
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  margin-bottom: 1px;
+}
+.vdots {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 7px;
+  flex-wrap: wrap;
+}
+.vdots i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  background: var(--muted);
+  box-shadow: var(--sh-1);
+}
+.vdots i.o-none {
+  background: transparent;
+  border: 1.5px solid var(--line);
+  box-shadow: none;
+}
+.rgs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+.rg {
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  border-radius: 10px;
+  padding: 9px 13px;
+  font-size: .9rem;
+  box-shadow: var(--sh-1);
+  color: var(--ink);
+}
+.rg:disabled { opacity: .4; box-shadow: none; }
+.rg:hover:not(:disabled) { border-color: var(--cyan); color: var(--cyan); }
+.explog { display: grid; gap: 8px; margin: 10px 0 4px; }
+.expitem {
+  background: var(--code);
+  border-radius: 12px;
+  padding: 10px 13px;
+  border: 1px solid var(--line);
+}
+.expname {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: .88rem;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.expname .seq {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--ac, var(--cyan));
+  color: var(--acink, #06151e);
+  font-size: .68rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+.expgrid { display: grid; gap: 4px; }
+.expcell {
+  display: flex;
+  gap: 7px;
+  align-items: flex-start;
+  font-size: .85rem;
+  color: var(--ink);
+}
+.expcell i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex: none;
+  background: var(--muted);
+  box-shadow: var(--sh-1);
+}
+.expcell i.o-none {
+  background: transparent;
+  border: 1.5px solid var(--line);
+  box-shadow: none;
+}
+.expcell b { color: var(--muted); font-weight: 600; margin-right: 1px; }
+.asg {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 12px;
+  align-items: center;
+  margin: 12px 0;
+}
+.asg select {
+  font: inherit;
+  padding: 9px 10px;
+  border-radius: 10px;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  width: 100%;
+}
+
+/* AI */
+.abanner {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: var(--code);
+  border-radius: 12px;
+  padding: 10px 13px;
+  margin-bottom: 12px;
+  font-size: .88rem;
+  color: var(--muted);
+  border: 1px solid var(--line);
+}
+.adot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.abanner.ready .adot {
+  background: var(--green);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 25%, transparent);
+}
+.abanner.off .adot { background: var(--pink); }
+.alog {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 12px;
+  min-height: 40px;
+  max-height: 52vh;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+.bubrow { display: flex; gap: 8px; align-items: flex-end; }
+.bubrow.u { justify-content: flex-end; }
+.bavatar {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--ac);
+  color: var(--acink);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: .72rem;
+}
+.bub {
+  max-width: 82%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: .95rem;
+  box-shadow: var(--sh-1);
+}
+.bub.u {
+  background: var(--cyan);
+  color: var(--cyan-ink);
+  border-bottom-right-radius: 5px;
+}
+.bub.a {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-bottom-left-radius: 5px;
+}
+.bub.err { background: var(--bad-bg); border-color: var(--pink); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.chip {
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  border-radius: 999px;
+  padding: 7px 13px;
+  font-size: .86rem;
+  text-align: left;
+  box-shadow: var(--sh-1);
+  color: var(--ink);
+}
+.chip:hover:not(:disabled) { border-color: var(--cyan); color: var(--cyan); }
+.chip:disabled { box-shadow: none; }
+.ain { display: flex; gap: 8px; align-items: flex-end; }
+.ain textarea {
+  flex: 1;
+  font: inherit;
+  padding: 11px 14px;
+  border-radius: 16px;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  resize: none;
+  min-height: 46px;
+}
+
+/* Floating chemistry background */
+.chem-bg-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.chem-node {
+  position: absolute;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: filter 0.3s, transform 0.1s linear;
+  user-select: none;
+  opacity: 0.55;
+}
+.chem-node svg {
+  overflow: visible;
+  filter: drop-shadow(0 0 6px rgba(85, 230, 223, 0.25));
+}
+.chem-node:hover {
+  opacity: 0.95;
+}
+.chem-node:hover svg {
+  filter: drop-shadow(0 0 12px rgba(85, 230, 223, 0.7));
+}
+.chem-node line {
+  stroke: var(--cyan);
+  stroke-width: 1.8;
+  opacity: 0.4;
+}
+.chem-node circle {
+  fill: #0c1c2e;
+  stroke: var(--cyan);
+  stroke-width: 1.5;
+  opacity: 0.7;
+}
+.chem-node text {
+  fill: #a5f3fc;
+  font-size: 11px;
+  font-family: monospace;
+  font-weight: bold;
+  opacity: 0.8;
+}
+.chem-popover {
+  position: fixed;
+  z-index: 100;
+  background: rgba(13, 27, 46, 0.96);
+  border: 1px solid var(--cyan);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(85,230,223,0.2);
+  border-radius: 12px;
+  padding: 14px 16px;
+  max-width: 280px;
+  backdrop-filter: blur(8px);
+  color: var(--ink);
+  transform: translate(-50%, -100%) translateY(-15px);
+  display: none;
+  animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.chem-popover.show { display: block; }
+.chem-popover h4 {
+  margin: 0 0 4px;
+  color: var(--cyan);
+  font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.chem-popover .formula {
+  color: var(--gold);
+  font-family: monospace;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.chem-popover p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.chem-popover .close-pop {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: bold;
+  background: none;
+  border: 0;
+  padding: 0 4px;
+}
+.chem-popover .close-pop:hover { color: #fff; }
+@keyframes popIn {
+  from { opacity: 0; transform: translate(-50%, -90%) scale(0.9); }
+  to { opacity: 1; transform: translate(-50%, -100%) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chem-node { transition: none; }
+  .mi.bad { animation: none; }
+  .prog i { transition: none; }
+}
+@media (max-width: 430px) {
+  .mg { gap: 6px; }
+  .mi { font-size: .82rem; padding: 8px; }
+}
+</style>
+</head>
+<body>
+<div class="chem-bg-container" id="chemBg"></div>
+<div class="chem-popover" id="chemPopover">
+  <h4><span id="popTitle">Phân tử</span> <button class="close-pop" type="button" onclick="hidePopover()">✕</button></h4>
+  <div class="formula" id="popFormula">C₆H₁₂O₆</div>
+  <p id="popDesc">Thông tin chi tiết về phân tử sẽ xuất hiện ở đây.</p>
+</div>
+
+<div class="wrap">
+  <div class="top">
+    <button class="brand" id="brand" type="button">HÓA 12 <span>ARENA</span></button>
+    <div class="hud">
+      <span class="pill">Điểm <b id="hudXp">0</b></span>
+      <span class="pill">Ngày <b id="hudSt">0</b></span>
+      <button class="pill" type="button" id="btnLb" style="cursor:pointer;border:0">🏆</button>
+    </div>
+  </div>
+  <main id="app"></main>
+</div>
+
+<!-- Floating search / AI button -->
+<button class="fab" type="button" id="fabSearch" title="Hỏi nhanh / Gia sư AI">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+</button>
+
+<!-- AI panel -->
+<div class="aipanel" id="aiPanel">
+  <div class="inner" id="aiInner"></div>
+</div>
+
+<!-- Leaderboard modal -->
+<div class="lbmodal" id="lbModal">
+  <div class="inner" id="lbInner"></div>
+</div>
+
+<!-- Name gate -->
+<div class="gate" id="nameGate" style="display:none">
+  <div class="gatebox">
+    <h2>Bạn tên gì?</h2>
+    <p>Nhập tên trước khi vào phần ôn tập và bảng xếp hạng tuần.</p>
+    <input id="nameInp" type="text" maxlength="24" placeholder="Ví dụ: Minh Anh" autocomplete="name">
+    <button class="btn" type="button" id="nameGo">Tiếp tục →</button>
+    <p class="tiny">Bảng xếp hạng được lưu trên thiết bị này.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- helpers ---------- */
+var $ = function(s, r){ return (r || document).querySelector(s); };
+function shuffle(a){ a = a.slice(); for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function T(head, rows){
+  return '<div class="tw"><table><thead><tr>' + head.map(function(h){ return '<th>'+h+'</th>'; }).join('') + '</tr></thead><tbody>' +
+    rows.map(function(r){ return '<tr>' + r.map(function(c){ return '<td>'+c+'</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+}
+function RX(s){ return '<p class="rx">' + s + '</p>'; }
+function KEY(s){ return '<div class="key">' + s + '</div>'; }
+var NOP = "Không có hiện tượng";
+
+/* ---------- progress ---------- */
+var SKEY = "h12-arena-lab-v2";
+var P = { name:"", xp:0, dayStreak:0, bestDay:0, lastDay:"", mix:0, exams:{}, ch:{}, weekKey:"", weekScores:[] };
+try { var raw = JSON.parse(localStorage.getItem(SKEY)); if (raw && typeof raw === "object") { P = Object.assign(P, raw); } } catch(e){}
+function save(){ try { localStorage.setItem(SKEY, JSON.stringify(P)); } catch(e){} }
+function cp(id){ if (!P.ch[id]) P.ch[id] = { quiz:0, lab:0, known:{} }; if (!P.ch[id].known) P.ch[id].known = {}; return P.ch[id]; }
+function pad2(n){ n=String(n); return n.length<2 ? "0"+n : n; }
+function todayStr(){ var d=new Date(); return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate()); }
+function weekKey(){ var d=new Date(); var day=d.getDay()||7; d.setDate(d.getDate()-day+1); return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate()); }
+function setHud(){
+  var hx=$("#hudXp"), hs=$("#hudSt");
+  if(hx) hx.textContent = P.xp;
+  if(hs) hs.textContent = P.dayStreak;
+}
+function addXp(n){
+  P.xp += n;
+  // weekly scoreboard
+  var wk = weekKey();
+  if (P.weekKey !== wk) { P.weekKey = wk; P.weekScores = []; }
+  var found = false;
+  for (var i=0;i<P.weekScores.length;i++){
+    if (P.weekScores[i].name === P.name) { P.weekScores[i].pts += n; found=true; break; }
+  }
+  if (!found && P.name) P.weekScores.push({ name:P.name, pts:n });
+  P.weekScores.sort(function(a,b){ return b.pts - a.pts; });
+  P.weekScores = P.weekScores.slice(0, 20);
+  save(); setHud();
+}
+function checkDayStreak(){
+  var t = todayStr();
+  if (P.lastDay === t) return; // already counted today
+  if (!P.lastDay) {
+    P.dayStreak = 1;
+  } else {
+    var prev = new Date(P.lastDay + "T12:00:00");
+    var now = new Date(t + "T12:00:00");
+    var diff = Math.round((now - prev) / 86400000);
+    if (diff === 1) P.dayStreak++;
+    else P.dayStreak = 1;
+  }
+  if (P.dayStreak > P.bestDay) P.bestDay = P.dayStreak;
+  P.lastDay = t;
+  save(); setHud();
+}
+/* keep empty stubs so old call sites don't break */
+function streakUp(){}
+function streakReset(){}
+
+/* ---------- content (from File 1 structure) ---------- */
+var CH = [
+/* ===== CHƯƠNG 1 ===== */
+{
+ id:1, sym:"O", ac:"#ffd166", acink:"#2a1a00",
+ name:"Ester – Lipid", sub:"Danh pháp, thủy phân, xà phòng hóa",
+ lessons:[
+  { t:"Ester: khái niệm và danh pháp", h:
+   '<p>Khi thay nhóm –OH trong nhóm carboxyl (–COOH) của carboxylic acid bằng nhóm –OR’ thì được ester.</p>' +
+   RX('RCOOR’  (R là H hoặc gốc hydrocarbon; R’ là gốc hydrocarbon)') +
+   '<p>Ester no, đơn chức, mạch hở có công thức chung C<sub>n</sub>H<sub>2n</sub>O<sub>2</sub> (n ≥ 2), là đồng phân của carboxylic acid no, đơn chức cùng số C.</p>' +
+   '<p><b>Cách gọi tên:</b> tên gốc R’ + tên anion gốc acid (đuôi -ate).</p>' +
+   T(["Công thức","Tên gọi"],[
+     ["HCOOCH<sub>3</sub>","methyl formate"],
+     ["CH<sub>3</sub>COOC<sub>2</sub>H<sub>5</sub>","ethyl acetate"],
+     ["C<sub>2</sub>H<sub>5</sub>COOCH<sub>3</sub>","methyl propionate"],
+     ["CH<sub>3</sub>COOCH=CH<sub>2</sub>","vinyl acetate"],
+     ["CH<sub>2</sub>=CHCOOCH<sub>3</sub>","methyl acrylate"],
+     ["CH<sub>2</sub>=C(CH<sub>3</sub>)COOCH<sub>3</sub>","methyl methacrylate"]
+   ]) },
+  { t:"Tính chất vật lý và điều chế", h:
+   '<ul><li>Ester thường là chất lỏng, nhẹ hơn nước, ít tan trong nước.</li>' +
+   '<li>Nhiệt độ sôi thấp hơn carboxylic acid và alcohol có phân tử khối tương đương vì giữa các phân tử ester không có liên kết hydrogen.</li>' +
+   '<li>Nhiều ester có mùi thơm: isoamyl acetate (chuối chín), ethyl butyrate (dứa), benzyl acetate (hoa nhài).</li></ul>' +
+   '<p><b>Điều chế – phản ứng ester hóa:</b></p>' +
+   RX('RCOOH + R’OH ⇌ RCOOR’ + H<sub>2</sub>O  (H<sub>2</sub>SO<sub>4</sub> đặc, t°)') +
+   KEY('Phản ứng thuận nghịch. Muốn tăng hiệu suất: dùng dư một chất đầu, hoặc lấy bớt ester hay nước ra khỏi hệ.') },
+  { t:"Tính chất hóa học của ester: thủy phân", h:
+   '<p><b>Môi trường acid</b> (thuận nghịch):</p>' +
+   RX('RCOOR’ + H<sub>2</sub>O ⇌ RCOOH + R’OH  (H<sub>2</sub>SO<sub>4</sub> loãng, t°)') +
+   '<p><b>Môi trường base – xà phòng hóa</b> (một chiều):</p>' +
+   RX('RCOOR’ + NaOH → RCOONa + R’OH  (t°)') +
+   '<p><b>Các trường hợp đặc biệt:</b></p>' +
+   T(["Loại ester","Phản ứng với NaOH dư"],[
+     ["Ester của phenol","CH<sub>3</sub>COOC<sub>6</sub>H<sub>5</sub> + 2NaOH → CH<sub>3</sub>COONa + C<sub>6</sub>H<sub>5</sub>ONa + H<sub>2</sub>O (tỉ lệ 1 : 2)"],
+     ["Ester vinyl","CH<sub>3</sub>COOCH=CH<sub>2</sub> + NaOH → CH<sub>3</sub>COONa + CH<sub>3</sub>CHO"],
+     ["Ester của formic acid HCOOR","Có nhóm –CHO nên còn cho phản ứng tráng bạc"]
+   ]) },
+  { t:"Lipid và chất béo", h:
+   '<p><b>Lipid</b> là các hợp chất hữu cơ có trong tế bào sống, không tan trong nước nhưng tan trong dung môi hữu cơ không phân cực. Gồm chất béo, sáp, steroid, phospholipid…</p>' +
+   '<p><b>Chất béo</b> (triglyceride) là trieste của glycerol với acid béo, công thức chung (RCOO)<sub>3</sub>C<sub>3</sub>H<sub>5</sub>.</p>' +
+   '<p><b>Acid béo</b> là carboxylic acid đơn chức, mạch carbon dài (khoảng 12–24 C), không phân nhánh, số C chẵn.</p>' +
+   T(["Acid béo","Công thức","Loại"],[
+     ["palmitic","C<sub>15</sub>H<sub>31</sub>COOH","no"],
+     ["stearic","C<sub>17</sub>H<sub>35</sub>COOH","no"],
+     ["oleic","C<sub>17</sub>H<sub>33</sub>COOH","không no (1 nối đôi)"],
+     ["linoleic","C<sub>17</sub>H<sub>31</sub>COOH","không no (2 nối đôi)"]
+   ]) +
+   '<p><b>Mỡ</b> là chất béo rắn (gốc acid béo no, thường từ động vật). <b>Dầu</b> là chất béo lỏng (gốc không no, thường từ thực vật).</p>' },
+  { t:"Tính chất của chất béo, xà phòng và chất giặt rửa", h:
+   '<p><b>Thủy phân trong acid</b> (thuận nghịch):</p>' +
+   RX('(RCOO)<sub>3</sub>C<sub>3</sub>H<sub>5</sub> + 3H<sub>2</sub>O ⇌ 3RCOOH + C<sub>3</sub>H<sub>5</sub>(OH)<sub>3</sub>') +
+   '<p><b>Xà phòng hóa</b> (một chiều):</p>' +
+   RX('(RCOO)<sub>3</sub>C<sub>3</sub>H<sub>5</sub> + 3NaOH → 3RCOONa + C<sub>3</sub>H<sub>5</sub>(OH)<sub>3</sub>') +
+   '<p><b>Hydro hóa</b> chất béo lỏng thành chất béo rắn (Ni, t°, p):</p>' +
+   RX('(C<sub>17</sub>H<sub>33</sub>COO)<sub>3</sub>C<sub>3</sub>H<sub>5</sub> + 3H<sub>2</sub> → (C<sub>17</sub>H<sub>35</sub>COO)<sub>3</sub>C<sub>3</sub>H<sub>5</sub>') +
+   '<ul><li><b>Xà phòng</b> là muối sodium hoặc potassium của acid béo.</li>' +
+   '<li><b>Chất giặt rửa tổng hợp</b> là muối như sodium alkyl sulfate, sodium alkylbenzene sulfonate. Phân tử có đầu ưa nước và đuôi kị nước.</li>' +
+   '<li>Trong nước cứng, xà phòng tạo kết tủa (RCOO)<sub>2</sub>Ca; chất giặt rửa tổng hợp không kết tủa với Ca<sup>2+</sup>, Mg<sup>2+</sup>.</li></ul>' },
+  { t:"Mẹo giải nhanh", h:
+   '<ul><li>Xà phòng hóa chất béo: n(NaOH) = 3·n(chất béo) = 3·n(glycerol).</li>' +
+   '<li>Ester đơn chức + NaOH: n(NaOH) = n(ester), trừ ester của phenol (tỉ lệ 1 : 2).</li>' +
+   '<li>Hiệu suất H = m(thực tế) / m(lý thuyết) × 100%.</li>' +
+   '<li>Đốt ester no, đơn chức, mạch hở: n(CO<sub>2</sub>) = n(H<sub>2</sub>O).</li>' +
+   '<li>M(tristearin) = 890; M(triolein) = 884.</li></ul>' }
+ ],
+ cards:[
+  ["Công thức chung của ester no, đơn chức, mạch hở","C<sub>n</sub>H<sub>2n</sub>O<sub>2</sub> (n ≥ 2)"],
+  ["Phản ứng ester hóa","RCOOH + R’OH ⇌ RCOOR’ + H<sub>2</sub>O (H<sub>2</sub>SO<sub>4</sub> đặc, t°), thuận nghịch"],
+  ["Xà phòng hóa là gì?","Thủy phân ester (chất béo) trong môi trường base, một chiều, tạo muối của acid và alcohol (glycerol)"],
+  ["Sản phẩm khi đun CH<sub>3</sub>COOC<sub>6</sub>H<sub>5</sub> với NaOH dư","CH<sub>3</sub>COONa + C<sub>6</sub>H<sub>5</sub>ONa + H<sub>2</sub>O"],
+  ["Sản phẩm khi đun vinyl acetate với NaOH","CH<sub>3</sub>COONa + CH<sub>3</sub>CHO"],
+  ["Ester nào có phản ứng tráng bạc?","Ester của formic acid, có dạng HCOOR"],
+  ["Chất béo là gì?","Trieste của glycerol với acid béo"],
+  ["Công thức và khối lượng mol của tristearin","(C<sub>17</sub>H<sub>35</sub>COO)<sub>3</sub>C<sub>3</sub>H<sub>5</sub>, M = 890"],
+  ["Công thức và khối lượng mol của triolein","(C<sub>17</sub>H<sub>33</sub>COO)<sub>3</sub>C<sub>3</sub>H<sub>5</sub>, M = 884"],
+  ["Hydro hóa chất béo dùng để làm gì?","Chuyển chất béo lỏng (gốc không no) thành chất béo rắn (gốc no); xúc tác Ni, t°, p"],
+  ["Xà phòng là gì?","Muối sodium hoặc potassium của acid béo"],
+  ["Ưu điểm của chất giặt rửa tổng hợp","Giặt được trong nước cứng vì không tạo kết tủa với Ca<sup>2+</sup>, Mg<sup>2+</sup>"]
+ ],
+ quiz:[
+  { t:"mcq", q:"Ester no, đơn chức, mạch hở có công thức phân tử C<sub>4</sub>H<sub>8</sub>O<sub>2</sub> có tối đa bao nhiêu đồng phân cấu tạo?",
+    o:["2","3","4","5"], a:2,
+    e:"Gồm HCOOCH<sub>2</sub>CH<sub>2</sub>CH<sub>3</sub>, HCOOCH(CH<sub>3</sub>)<sub>2</sub>, CH<sub>3</sub>COOC<sub>2</sub>H<sub>5</sub>, C<sub>2</sub>H<sub>5</sub>COOCH<sub>3</sub>: tổng 4 đồng phân." },
+  { t:"mcq", q:"Chất nào khi đun nóng với dung dịch NaOH dư thu được hai muối?",
+    o:["CH<sub>3</sub>COOCH<sub>3</sub>","CH<sub>3</sub>COOC<sub>6</sub>H<sub>5</sub>","HCOOC<sub>2</sub>H<sub>5</sub>","CH<sub>3</sub>COOCH=CH<sub>2</sub>"], a:1,
+    e:"CH<sub>3</sub>COOC<sub>6</sub>H<sub>5</sub> + 2NaOH → CH<sub>3</sub>COONa + C<sub>6</sub>H<sub>5</sub>ONa + H<sub>2</sub>O." },
+  { t:"mcq", q:"Ester có nhiệt độ sôi thấp hơn carboxylic acid có phân tử khối tương đương chủ yếu vì:",
+    o:["Ester có ít nguyên tử C hơn","Giữa các phân tử ester không tạo được liên kết hydrogen","Ester không tan trong nước","Ester có nhiều nguyên tử oxygen hơn"], a:1,
+    e:"Phân tử ester không có nguyên tử H liên kết với O nên không tạo liên kết hydrogen liên phân tử." },
+  { t:"mcq", q:"Hydro hóa hoàn toàn triolein (xúc tác Ni, t°) thu được chất béo nào?",
+    o:["Tripalmitin","Tristearin","Trilinolein","Triacetin"], a:1,
+    e:"Gốc oleate C<sub>17</sub>H<sub>33</sub>COO– có 1 nối đôi, cộng H<sub>2</sub> thành gốc stearate → tristearin." },
+  { t:"mcq", q:"Ưu điểm nổi bật của chất giặt rửa tổng hợp so với xà phòng là gì?",
+    o:["Nguyên liệu hoàn toàn từ chất béo tự nhiên","Giặt được trong nước cứng","Không có phần ưa nước","Là muối của acid béo"], a:1,
+    e:"Chất giặt rửa tổng hợp không tạo kết tủa với Ca<sup>2+</sup>, Mg<sup>2+</sup>." },
+  { t:"tf", q:"Cho ester ethyl acetate CH<sub>3</sub>COOC<sub>2</sub>H<sub>5</sub>. Xét các phát biểu sau:",
+    s:[
+      { x:"Là ester no, đơn chức, mạch hở, công thức phân tử C<sub>4</sub>H<sub>8</sub>O<sub>2</sub>.", v:true, e:"Đúng, thỏa C<sub>n</sub>H<sub>2n</sub>O<sub>2</sub> với n = 4." },
+      { x:"Đun nóng với dung dịch NaOH thu được CH<sub>3</sub>COONa và C<sub>2</sub>H<sub>5</sub>OH.", v:true, e:"Đúng, đây là phản ứng xà phòng hóa." },
+      { x:"Phản ứng thủy phân trong dung dịch H<sub>2</sub>SO<sub>4</sub> loãng là phản ứng một chiều.", v:false, e:"Sai, thủy phân trong môi trường acid là phản ứng thuận nghịch." },
+      { x:"Có phản ứng tráng bạc.", v:false, e:"Sai, chỉ ester của formic acid (HCOOR) mới tráng bạc." }
+    ] },
+  { t:"sa", q:"Xà phòng hóa hoàn toàn 17,8 gam tristearin (M = 890) bằng dung dịch NaOH dư. Tính khối lượng muối thu được (gam).",
+    a:18.36, tol:0.02,
+    e:"n(tristearin) = 17,8 / 890 = 0,02 mol → 0,06 mol C<sub>17</sub>H<sub>35</sub>COONa (M = 306) → m = 18,36 gam." },
+  { t:"sa", q:"Đun 6,0 gam CH<sub>3</sub>COOH với 4,6 gam C<sub>2</sub>H<sub>5</sub>OH (xúc tác H<sub>2</sub>SO<sub>4</sub> đặc), hiệu suất phản ứng 50%. Tính khối lượng ethyl acetate thu được (gam).",
+    a:4.4, tol:0.02,
+    e:"n = 0,1 mol mỗi chất → lý thuyết 8,8 gam ester. H = 50% → m = 4,4 gam." },
+  { t:"mcq", q:"Chất nào sau đây là ester?",
+    o:["HCOOCH<sub>3</sub>","CH<sub>3</sub>COOH","C<sub>2</sub>H<sub>5</sub>OH","CH<sub>3</sub>CHO"], a:0,
+    e:"HCOOCH<sub>3</sub> (methyl formate) là ester." },
+  { t:"mcq", q:"Thành phần chính của chất béo là",
+    o:["Triester của glycerol với acid béo","Muối sodium của acid béo","Polymer của glucose","Alcohol đơn chức"], a:0,
+    e:"Chất béo là triester của glycerol với các acid béo." },
+  { t:"mcq", q:"Dầu thực vật ở điều kiện thường thường ở trạng thái lỏng vì chứa nhiều gốc acid béo",
+    o:["Không no","Chỉ no","Có vòng benzene","Chứa nitrogen"], a:0,
+    e:"Dầu thực vật chứa nhiều gốc acid béo không no nên ở trạng thái lỏng." },
+  { t:"mcq", q:"Khi đun vinyl acetate với NaOH thu được",
+    o:["CH<sub>3</sub>COONa và CH<sub>3</sub>CHO","Hai muối sodium","Chỉ alcohol","Không phản ứng"], a:0,
+    e:"Ester vinyl thủy phân base tạo muối carboxylate và aldehyde (acetaldehyde)." },
+  { t:"mcq", q:"Ester nào sau đây có phản ứng tráng bạc?",
+    o:["CH<sub>3</sub>COOC<sub>2</sub>H<sub>5</sub>","HCOOCH<sub>3</sub>","C<sub>6</sub>H<sub>5</sub>COOCH<sub>3</sub>","CH<sub>3</sub>COOCH=CH<sub>2</sub>"], a:1,
+    e:"Chỉ ester của formic acid (HCOOR) có nhóm –CHO nên tráng bạc." },
+  { t:"tf", q:"Cho các phát biểu về chất béo và xà phòng:",
+    s:[
+      { x:"Tristearin có M = 890.", v:true, e:"Đúng." },
+      { x:"Xà phòng hóa chất béo cần n(NaOH) = 3·n(chất béo).", v:true, e:"Đúng, mỗi phân tử triglyceride cần 3 OH⁻." },
+      { x:"Xà phòng giặt tốt trong nước cứng nhờ tạo kết tủa với Ca<sup>2+</sup>.", v:false, e:"Sai, kết tủa làm giảm hiệu quả giặt." },
+      { x:"Hydro hóa triolein (Ni, t°) thu được tristearin.", v:true, e:"Đúng." }
+    ] },
+  { t:"sa", q:"Xà phòng hóa hoàn toàn 8,84 gam triolein (M = 884) bằng NaOH dư. Tính số mol NaOH đã phản ứng.",
+    a:0.03, tol:0.001,
+    e:"n(triolein) = 8,84/884 = 0,01 mol → n(NaOH) = 0,03 mol." }
+ ],
+ lab:{
+  title:"Ba lọ mất nhãn: acid, alcohol và ester",
+  intro:"Ba lọ chất lỏng không màu bị mất nhãn. Hãy chọn thuốc thử để tìm ra lọ nào là chất nào.",
+  samples:["CH<sub>3</sub>COOH (acetic acid)","C<sub>2</sub>H<sub>5</sub>OH (ethanol)","CH<sub>3</sub>COOC<sub>2</sub>H<sub>5</sub> (ethyl acetate)"],
+  reagents:[
+   { n:"Quỳ tím", r:["Quỳ tím hóa đỏ","Quỳ tím không đổi màu","Quỳ tím không đổi màu"] },
+   { n:"Nước (lắc rồi để yên)", r:["Tan hoàn toàn","Tan hoàn toàn","Không tan, tách thành hai lớp"] },
+   { n:"Kim loại Na", r:["Sủi bọt khí mạnh","Sủi bọt khí chậm hơn",NOP] },
+   { n:"NaHCO<sub>3</sub>", r:["Sủi bọt khí CO<sub>2</sub>",NOP,NOP] },
+   { n:"AgNO<sub>3</sub>/NH<sub>3</sub>, đun nóng", r:[NOP,NOP,NOP] }
+  ],
+  explain:"Quỳ tím hóa đỏ hoặc NaHCO<sub>3</sub> sủi bọt khí cho biết acetic acid. Thử với nước tách ester (ít tan, tạo hai lớp) khỏi ethanol (tan hoàn toàn)."
+ },
+ ask:["Vì sao xà phòng hóa là phản ứng một chiều?","Ester nào thủy phân ra hai muối?","Cách tính khối lượng xà phòng thu được từ chất béo?"]
+},
+/* ===== CHƯƠNG 2 ===== */
+{
+ id:2, sym:"C", ac:"#ff6b9a", acink:"#3a0716",
+ name:"Carbohydrate", sub:"Glucose, saccharose, tinh bột, cellulose",
+ lessons:[
+  { t:"Khái niệm và phân loại", h:
+   '<p>Carbohydrate (saccharide) là hợp chất hữu cơ tạp chức, thường có công thức chung C<sub>n</sub>(H<sub>2</sub>O)<sub>m</sub>.</p>' +
+   T(["Loại","Ví dụ","Đặc điểm"],[
+     ["Monosaccharide","glucose, fructose (C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>)","Không bị thủy phân"],
+     ["Disaccharide","saccharose, maltose (C<sub>12</sub>H<sub>22</sub>O<sub>11</sub>)","Thủy phân cho 2 phân tử monosaccharide"],
+     ["Polysaccharide","tinh bột, cellulose ((C<sub>6</sub>H<sub>10</sub>O<sub>5</sub>)<sub>n</sub>)","Thủy phân cho nhiều phân tử monosaccharide"]
+   ]) },
+  { t:"Glucose", h:
+   '<p>Chất rắn, tinh thể không màu, tan tốt trong nước, vị ngọt. Có trong quả chín (nho), mật ong, máu người (khoảng 0,1%).</p>' +
+   '<p><b>Cấu tạo mạch hở:</b> CH<sub>2</sub>OH[CHOH]<sub>4</sub>CHO, gồm 5 nhóm –OH và 1 nhóm –CHO. Trong dung dịch chủ yếu tồn tại dạng mạch vòng 6 cạnh (α-glucose và β-glucose).</p>' +
+   T(["Tính chất","Phản ứng / hiện tượng"],[
+     ["Nhiều nhóm –OH kề nhau","Hòa tan Cu(OH)<sub>2</sub> ở nhiệt độ thường tạo dung dịch xanh lam"],
+     ["Nhóm –CHO (tráng bạc)","Với AgNO<sub>3</sub>/NH<sub>3</sub>, t° tạo Ag sáng bóng"],
+     ["Nhóm –CHO (với Cu(OH)<sub>2</sub>)","Cu(OH)<sub>2</sub>/NaOH, t° tạo kết tủa đỏ gạch Cu<sub>2</sub>O"],
+     ["Nhóm –CHO (với bromine)","Làm mất màu nước bromine (tạo gluconic acid)"],
+     ["Lên men","C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> → 2C<sub>2</sub>H<sub>5</sub>OH + 2CO<sub>2</sub> (enzyme, 30–35 °C)"],
+     ["Hydro hóa","Cộng H<sub>2</sub> thành sorbitol"]
+   ]) },
+  { t:"Fructose và so sánh với glucose", h:
+   '<p>Fructose là đồng phân của glucose, thuộc loại ketose (nhóm C=O ở C2): CH<sub>2</sub>OH[CHOH]<sub>3</sub>COCH<sub>2</sub>OH. Là carbohydrate ngọt nhất, có nhiều trong mật ong (khoảng 40%).</p>' +
+   T(["Tính chất","Glucose","Fructose"],[
+     ["Nhóm chức mạch hở","–CHO","C=O (ketone)"],
+     ["Cu(OH)<sub>2</sub> nhiệt độ thường","xanh lam","xanh lam"],
+     ["AgNO<sub>3</sub>/NH<sub>3</sub>","có tráng bạc","có tráng bạc (chuyển thành glucose trong môi trường base)"],
+     ["Nước bromine","mất màu","không mất màu"]
+   ]) +
+   KEY('Muốn phân biệt glucose và fructose: dùng nước bromine.') },
+  { t:"Saccharose và maltose", h:
+   T(["Tính chất","Saccharose (đường mía)","Maltose (đường mạch nha)"],[
+     ["Công thức","C<sub>12</sub>H<sub>22</sub>O<sub>11</sub>","C<sub>12</sub>H<sub>22</sub>O<sub>11</sub>"],
+     ["Cấu tạo","1 gốc α-glucose + 1 gốc β-fructose","2 gốc α-glucose"],
+     ["Tráng bạc","Không (không có nhóm –CHO tự do)","Có"],
+     ["Cu(OH)<sub>2</sub> nhiệt độ thường","xanh lam","xanh lam"],
+     ["Thủy phân (H<sup>+</sup>, t°)","glucose + fructose","2 glucose"]
+   ]) },
+  { t:"Tinh bột và cellulose", h:
+   T(["","Tinh bột","Cellulose"],[
+     ["Công thức","(C<sub>6</sub>H<sub>10</sub>O<sub>5</sub>)<sub>n</sub>","[C<sub>6</sub>H<sub>7</sub>O<sub>2</sub>(OH)<sub>3</sub>]<sub>n</sub>"],
+     ["Mắt xích","α-glucose: amylose (không phân nhánh), amylopectin (phân nhánh)","β-glucose, không phân nhánh"],
+     ["Thủy phân (H<sup>+</sup>)","→ glucose","→ glucose"],
+     ["Thuốc thử đặc trưng","Iodine: xanh tím (đun nóng mất màu, để nguội màu trở lại)","HNO<sub>3</sub> đặc/H<sub>2</sub>SO<sub>4</sub> đặc → cellulose trinitrate; anhydride acetic → cellulose acetate"],
+     ["Ứng dụng","Lương thực, sản xuất glucose, ethanol","Giấy, vải bông, tơ visco, tơ acetate"]
+   ]) },
+  { t:"Mẹo giải nhanh", h:
+   '<ul><li>1 glucose (hoặc 1 fructose) → 2Ag khi tráng bạc.</li>' +
+   '<li>Saccharose không tráng bạc; thủy phân hoàn toàn rồi tráng bạc: 1 saccharose → 4Ag.</li>' +
+   '<li>Lên men: n(C<sub>2</sub>H<sub>5</sub>OH) = 2·n(glucose) khi H = 100%.</li>' +
+   '<li>Thủy phân tinh bột/cellulose: (C<sub>6</sub>H<sub>10</sub>O<sub>5</sub>)<sub>n</sub> + nH<sub>2</sub>O → nC<sub>6</sub>H<sub>12</sub>O<sub>6</sub> (162 → 180).</li></ul>' }
+ ],
+ cards:[
+  ["Công thức phân tử của glucose và fructose","C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>"],
+  ["Glucose mạch hở có những nhóm chức nào?","5 nhóm –OH và 1 nhóm –CHO"],
+  ["Fructose thuộc loại nào?","Ketose (nhóm C=O ở vị trí C2)"],
+  ["Thuốc thử phân biệt glucose và fructose","Nước bromine: glucose làm mất màu, fructose không"],
+  ["Glucose + Cu(OH)<sub>2</sub> ở nhiệt độ thường","Dung dịch xanh lam (nhiều nhóm –OH kề nhau)"],
+  ["Phương trình lên men glucose","C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> → 2C<sub>2</sub>H<sub>5</sub>OH + 2CO<sub>2</sub>"],
+  ["Saccharose thủy phân tạo gì?","Glucose + fructose"],
+  ["Tinh bột + I<sub>2</sub>","Màu xanh tím"],
+  ["Cellulose và tinh bột khác nhau ở đâu?","Tinh bột: α-glucose; cellulose: β-glucose"],
+  ["Mắt xích của cellulose","β-glucose"],
+  ["Disaccharide nào tráng bạc trực tiếp?","Maltose (có nhóm –CHO tự do)"],
+  ["Saccharose có tráng bạc không?","Không, vì không có nhóm –CHO tự do"]
+ ],
+ quiz:[
+  { t:"mcq", q:"Glucose có công thức phân tử là",
+    o:["C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>","C<sub>12</sub>H<sub>22</sub>O<sub>11</sub>","(C<sub>6</sub>H<sub>10</sub>O<sub>5</sub>)<sub>n</sub>","C<sub>2</sub>H<sub>5</sub>OH"], a:0,
+    e:"Glucose là monosaccharide có công thức C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>." },
+  { t:"mcq", q:"Chất nào sau đây có phản ứng tráng bạc?",
+    o:["Tinh bột","Cellulose","Glucose","Saccharose"], a:2,
+    e:"Glucose có nhóm –CHO ở dạng mạch hở nên tráng bạc." },
+  { t:"mcq", q:"Thủy phân hoàn toàn saccharose trong môi trường acid thu được",
+    o:["Glucose và fructose","Hai molecule glucose","Glucose và galactose","Glycerol và acid béo"], a:0,
+    e:"Saccharose = 1 gốc α-glucose + 1 gốc β-fructose." },
+  { t:"mcq", q:"Tinh bột và cellulose đều được cấu tạo từ các mắt xích",
+    o:["Glucose","Fructose","Galactose","Amino acid"], a:0,
+    e:"Tinh bột: α-glucose; cellulose: β-glucose." },
+  { t:"mcq", q:"Carbohydrate nào không bị thủy phân?",
+    o:["Glucose","Saccharose","Tinh bột","Cellulose"], a:0,
+    e:"Glucose là monosaccharide nên không bị thủy phân." },
+  { t:"tf", q:"Cho các phát biểu về carbohydrate:",
+    s:[
+      { x:"Glucose và fructose là đồng phân của nhau.", v:true, e:"Đúng, cùng C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>." },
+      { x:"Saccharose có phản ứng tráng bạc.", v:false, e:"Sai, saccharose không có nhóm –CHO tự do." },
+      { x:"Tinh bột cho màu xanh tím với iodine.", v:true, e:"Đúng." },
+      { x:"Cellulose được cấu tạo từ mắt xích α-glucose.", v:false, e:"Sai, cellulose từ β-glucose." }
+    ] },
+  { t:"sa", q:"Lên men hoàn toàn 36 gam glucose. Tính thể tích CO<sub>2</sub> thu được ở đktc (lít). Hiệu suất 100%.",
+    a:8.96, tol:0.05,
+    e:"n(glucose) = 36/180 = 0,2 mol → n(CO<sub>2</sub>) = 0,4 mol → V = 0,4 × 22,4 = 8,96 lít." },
+  { t:"sa", q:"Thủy phân hoàn toàn 32,4 gam tinh bột. Tính khối lượng glucose thu được (gam). Hiệu suất 100%.",
+    a:36, tol:0.1,
+    e:"(C<sub>6</sub>H<sub>10</sub>O<sub>5</sub>)<sub>n</sub> + nH<sub>2</sub>O → nC<sub>6</sub>H<sub>12</sub>O<sub>6</sub>. 162 gam → 180 gam. 32,4 → 36 gam." },
+  { t:"mcq", q:"Thuốc thử dùng để phân biệt glucose và fructose là",
+    o:["Nước bromine","Iodine","Quỳ tím","NaOH"], a:0,
+    e:"Glucose (aldehyde) làm mất màu bromine; fructose (ketone) không." },
+  { t:"mcq", q:"Glucose + Cu(OH)<sub>2</sub> ở nhiệt độ thường tạo",
+    o:["Kết tủa đỏ gạch","Dung dịch xanh lam","Lớp bạc","Khí CO<sub>2</sub>"], a:1,
+    e:"Nhiều nhóm –OH kề nhau hòa tan Cu(OH)<sub>2</sub> tạo dung dịch xanh lam." },
+  { t:"mcq", q:"Disaccharide nào tráng bạc trực tiếp?",
+    o:["Saccharose","Maltose","Cả hai","Không cái nào"], a:1,
+    e:"Maltose còn nhóm –CHO tự do; saccharose không." },
+  { t:"mcq", q:"Phương trình lên men glucose tạo ethanol và CO<sub>2</sub> có tỉ lệ mol ethanol : glucose là",
+    o:["1 : 1","2 : 1","1 : 2","3 : 1"], a:1,
+    e:"C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> → 2C<sub>2</sub>H<sub>5</sub>OH + 2CO<sub>2</sub>." },
+  { t:"mcq", q:"Tinh bột cho màu xanh tím với",
+    o:["AgNO<sub>3</sub>/NH<sub>3</sub>","Iodine (I<sub>2</sub>)","Nước bromine","Cu(OH)<sub>2</sub> nóng"], a:1,
+    e:"Phản ứng đặc trưng tinh bột – iodine." },
+  { t:"tf", q:"Cho các phát biểu về monosaccharide và polysaccharide:",
+    s:[
+      { x:"Fructose thuộc loại ketose.", v:true, e:"Đúng, nhóm C=O ở C2." },
+      { x:"1 mol glucose tráng bạc tạo tối đa 2 mol Ag.", v:true, e:"Đúng." },
+      { x:"Cellulose và tinh bột khác nhau về kiểu liên kết glucoside (α/β).", v:true, e:"Đúng." },
+      { x:"Saccharose thủy phân cho 2 glucose.", v:false, e:"Sai, glucose + fructose." }
+    ] },
+  { t:"sa", q:"Lên men 90 gam glucose, hiệu suất 80%. Tính khối lượng ethanol thu được (gam). M(C<sub>2</sub>H<sub>5</sub>OH) = 46.",
+    a:36.8, tol:0.1,
+    e:"n(glucose)=0,5 → lý thuyết 1 mol ethanol = 46 gam; H=80% → 36,8 gam." }
+ ],
+ lab:{
+  title:"Ba lọ mất nhãn: glucose, saccharose và tinh bột",
+  intro:"Ba dung dịch/hỗn dịch không màu bị mất nhãn. Dùng thuốc thử để xác định.",
+  samples:["Dung dịch glucose","Dung dịch saccharose","Hồ tinh bột"],
+  reagents:[
+   { n:"AgNO<sub>3</sub>/NH<sub>3</sub>, đun nóng", r:["Lớp bạc sáng bóng","Không có hiện tượng","Không có hiện tượng"] },
+   { n:"Cu(OH)<sub>2</sub> nhiệt độ thường", r:["Dung dịch xanh lam","Dung dịch xanh lam","Không có hiện tượng đặc trưng"] },
+   { n:"Iodine (I<sub>2</sub>)", r:["Không đổi màu","Không đổi màu","Xanh tím"] },
+   { n:"Nước bromine", r:["Mất màu","Không mất màu","Không mất màu"] }
+  ],
+  explain:"AgNO<sub>3</sub>/NH<sub>3</sub> nhận glucose. Iodine nhận tinh bột. Lọ còn lại là saccharose."
+ },
+ ask:["Vì sao saccharose không tráng bạc?","Cách phân biệt glucose và fructose?","Tính khối lượng ethanol từ lên men glucose?"]
+},
+/* ===== CHƯƠNG 3 ===== */
+{
+ id:3, sym:"N", ac:"#55e6df", acink:"#06151e",
+ name:"Hợp chất nitrogen", sub:"Amine, amino acid, peptide, protein",
+ lessons:[
+  { t:"Amine: khái niệm, phân loại, danh pháp", h:
+   '<p>Amine là dẫn xuất của ammonia khi thay một hay nhiều nguyên tử H bằng gốc hydrocarbon.</p>' +
+   T(["Loại","Ví dụ","Tên gọi"],[
+     ["Bậc 1","CH<sub>3</sub>NH<sub>2</sub>","methylamine"],
+     ["Bậc 2","(CH<sub>3</sub>)<sub>2</sub>NH","dimethylamine"],
+     ["Bậc 3","(CH<sub>3</sub>)<sub>3</sub>N","trimethylamine"],
+     ["Thơm","C<sub>6</sub>H<sub>5</sub>NH<sub>2</sub>","aniline (phenylamine)"]
+   ]) },
+  { t:"Tính chất vật lý và hóa học của amine", h:
+   '<ul><li>Amine có mùi đặc trưng (cá ươn ở các amine mạch ngắn).</li>' +
+   '<li>Amine mạch ngắn tan tốt trong nước, tạo liên kết hydrogen.</li></ul>' +
+   '<p><b>Tính base:</b></p>' +
+   RX('RNH<sub>2</sub> + HCl → RNH<sub>3</sub>Cl') +
+   RX('RNH<sub>2</sub> + H<sub>2</sub>O ⇌ RNH<sub>3</sub><sup>+</sup> + OH<sup>–</sup>') +
+   KEY('Lực base: aliphatic amine > ammonia > aniline. Aniline yếu hơn vì cặp e của N tham gia liên hợp với vòng benzene.') +
+   '<p><b>Phản ứng với nước bromine (aniline):</b> tạo 2,4,6-tribromoaniline (kết tủa trắng).</p>' },
+  { t:"Amino acid", h:
+   '<p>Amino acid là hợp chất hữu cơ tạp chức chứa đồng thời nhóm amino (–NH<sub>2</sub>) và carboxyl (–COOH). Amino acid thiên nhiên chủ yếu là α-amino acid.</p>' +
+   T(["Tên","Công thức","Đặc điểm"],[
+     ["Glycine","H<sub>2</sub>NCH<sub>2</sub>COOH","Đơn giản nhất"],
+     ["Alanine","H<sub>2</sub>NCH(CH<sub>3</sub>)COOH",""],
+     ["Lysine","H<sub>2</sub>N[CH<sub>2</sub>]<sub>4</sub>CH(NH<sub>2</sub>)COOH","2 nhóm –NH<sub>2</sub>"],
+     ["Glutamic acid","HOOC[CH<sub>2</sub>]<sub>2</sub>CH(NH<sub>2</sub>)COOH","2 nhóm –COOH"]
+   ]) +
+   '<p><b>Tính lưỡng tính:</b> phản ứng với cả acid và base.</p>' +
+   RX('H<sub>2</sub>NCH<sub>2</sub>COOH + HCl → ClH<sub>3</sub>NCH<sub>2</sub>COOH') +
+   RX('H<sub>2</sub>NCH<sub>2</sub>COOH + NaOH → H<sub>2</sub>NCH<sub>2</sub>COONa + H<sub>2</sub>O') },
+  { t:"Peptide và protein", h:
+   '<p><b>Liên kết peptide</b> (–CO–NH–) tạo thành khi nhóm –COOH của amino acid này phản ứng với nhóm –NH<sub>2</sub> của amino acid kia, giải phóng H<sub>2</sub>O.</p>' +
+   '<p>Dipeptide: 2 amino acid; tripeptide: 3; polypeptide: nhiều. Protein là polypeptide có phân tử khối lớn (từ hàng chục nghìn trở lên).</p>' +
+   '<p><b>Phản ứng màu biuret:</b> peptide từ 2 liên kết peptide trở lên (từ tripeptide) với Cu(OH)<sub>2</sub>/OH<sup>–</sup> cho màu tím.</p>' +
+   '<p><b>Đông tụ protein:</b> nhiệt độ cao, acid/kiềm mạnh, muối kim loại nặng làm biến tính và đông tụ.</p>' },
+  { t:"Mẹo giải nhanh", h:
+   '<ul><li>Amine bậc 1 + HCl: n(muối) = n(amine).</li>' +
+   '<li>Amino acid trung tính (số –NH<sub>2</sub> = số –COOH) không đổi màu quỳ tím.</li>' +
+   '<li>Số dipeptide từ 2 amino acid khác nhau: 2 (AB và BA).</li>' +
+   '<li>Protein đơn giản thủy phân hoàn toàn → các α-amino acid.</li></ul>' }
+ ],
+ cards:[
+  ["Nhóm chức đặc trưng của amine","–NH<sub>2</sub> (liên kết với gốc hydrocarbon)"],
+  ["Amine bậc 1 ví dụ","CH<sub>3</sub>NH<sub>2</sub> (methylamine)"],
+  ["Tính base của aniline so với ammonia","Yếu hơn (cặp e của N liên hợp với vòng benzene)"],
+  ["Aniline + nước bromine","Kết tủa trắng 2,4,6-tribromoaniline"],
+  ["Amino acid có nhóm chức nào?","–NH<sub>2</sub> và –COOH"],
+  ["Glycine công thức","H<sub>2</sub>NCH<sub>2</sub>COOH"],
+  ["Liên kết peptide","–CO–NH–"],
+  ["Phản ứng biuret cần ít nhất","Từ 2 liên kết peptide (tripeptide trở lên)"],
+  ["Protein đông tụ bởi","Nhiệt độ cao, acid/kiềm mạnh, muối kim loại nặng"],
+  ["Lysine làm quỳ tím","Hóa xanh (nhiều –NH<sub>2</sub> hơn –COOH)"],
+  ["Glutamic acid làm quỳ tím","Hóa đỏ (nhiều –COOH hơn –NH<sub>2</sub>)"],
+  ["Thủy phân protein đơn giản thu được","Các α-amino acid"]
+ ],
+ quiz:[
+  { t:"mcq", q:"Nhóm chức đặc trưng của amine là",
+    o:["–NH<sub>2</sub> (liên kết với gốc hydrocarbon)","–COOH","–CHO","–OH phenol"], a:0,
+    e:"Amine có nguyên tử nitrogen liên kết với gốc hydrocarbon." },
+  { t:"mcq", q:"Amino acid trong phân tử đồng thời chứa hai nhóm chức nào?",
+    o:["–OH và –CHO","–NH<sub>2</sub> và –COOH","–COO– và –O–","–NO<sub>2</sub> và –OH"], a:1,
+    e:"Amino acid chứa đồng thời nhóm amino và carboxyl." },
+  { t:"mcq", q:"Liên kết nối các đơn vị α-amino acid trong chuỗi peptide là",
+    o:["Liên kết ester","Liên kết peptide","Liên kết hydrogen","Liên kết ion"], a:1,
+    e:"Liên kết peptide –CO–NH–." },
+  { t:"mcq", q:"Aniline phản ứng với nước bromine tạo",
+    o:["Không có kết tủa","Kết tủa trắng","Có khí không màu bay ra","Xuất hiện kết tủa vàng"], a:1,
+    e:"Tạo 2,4,6-tribromoaniline kết tủa trắng." },
+  { t:"mcq", q:"Chất nào sau đây là amine bậc 1?",
+    o:["CH<sub>3</sub>NH<sub>2</sub>","(CH<sub>3</sub>)<sub>2</sub>NH","(CH<sub>3</sub>)<sub>3</sub>N","CH<sub>3</sub>–NH–C<sub>2</sub>H<sub>5</sub>"], a:0,
+    e:"CH<sub>3</sub>NH<sub>2</sub> có 1 gốc hydrocarbon gắn với N." },
+  { t:"tf", q:"Cho amino acid glycine H<sub>2</sub>NCH<sub>2</sub>COOH và peptide. Xét các phát biểu sau:",
+    s:[
+      { x:"Glycine có tính lưỡng tính.", v:true, e:"Đúng, phản ứng được với cả HCl và NaOH." },
+      { x:"Dung dịch glycine làm quỳ tím hóa xanh.", v:false, e:"Sai, số –NH<sub>2</sub> = số –COOH nên không đổi màu quỳ." },
+      { x:"Dipeptide có phản ứng màu biuret.", v:false, e:"Sai, biuret cần từ 2 liên kết peptide (tripeptide)." },
+      { x:"Thủy phân hoàn toàn protein đơn giản thu được các α-amino acid.", v:true, e:"Đúng." }
+    ] },
+  { t:"sa", q:"Cho 4,5 gam ethylamine C<sub>2</sub>H<sub>5</sub>NH<sub>2</sub> tác dụng vừa đủ với dung dịch HCl. Tính khối lượng muối thu được (gam).",
+    a:8.15, tol:0.02,
+    e:"n = 4,5/45 = 0,1 mol. m(muối) = 4,5 + 0,1×36,5 = 8,15 gam." },
+  { t:"sa", q:"Cho 7,5 gam glycine tác dụng vừa đủ với dung dịch NaOH. Tính khối lượng muối thu được (gam).",
+    a:9.7, tol:0.02,
+    e:"n = 7,5/75 = 0,1 mol. Muối H<sub>2</sub>NCH<sub>2</sub>COONa M = 97 → m = 9,7 gam." },
+  { t:"mcq", q:"Lực base so sánh đúng là",
+    o:["Aniline > ammonia > methylamine","Methylamine > ammonia > aniline","Ammonia > methylamine > aniline","Aniline > methylamine > ammonia"], a:1,
+    e:"Aliphatic amine mạnh hơn ammonia; aniline yếu hơn do liên hợp với vòng benzene." },
+  { t:"mcq", q:"Protein có thể bị đông tụ dưới tác dụng của",
+    o:["Nhiệt độ cao hoặc hóa chất","Nước lạnh","Khí oxygen ở điều kiện thường","Dung dịch đường loãng"], a:0,
+    e:"Nhiệt độ cao hoặc acid/kiềm/muối kim loại nặng làm biến tính và đông tụ protein." },
+  { t:"mcq", q:"Phản ứng biuret cần ít nhất",
+    o:["1 liên kết peptide","2 liên kết peptide (tripeptide trở lên)","Nhóm –NH<sub>2</sub> tự do","Nhóm –COOH"], a:1,
+    e:"Từ 2 liên kết peptide trở lên mới cho màu tím với Cu(OH)<sub>2</sub>/OH⁻." },
+  { t:"mcq", q:"Amino acid nào làm quỳ tím hóa đỏ?",
+    o:["Glycine","Alanine","Lysine","Glutamic acid"], a:3,
+    e:"Glutamic acid có 2 –COOH và 1 –NH<sub>2</sub> nên môi trường acid." },
+  { t:"mcq", q:"Số dipeptide tạo được từ glycine và alanine (không xét đồng phân quang học) là",
+    o:["1","2","3","4"], a:1,
+    e:"Gly–Ala và Ala–Gly." },
+  { t:"tf", q:"Cho các phát biểu về amine và protein:",
+    s:[
+      { x:"Aniline + nước bromine tạo kết tủa trắng.", v:true, e:"Đúng, 2,4,6-tribromoaniline." },
+      { x:"Lysine làm quỳ tím hóa xanh.", v:true, e:"Đúng, 2 –NH<sub>2</sub> và 1 –COOH." },
+      { x:"Dipeptide luôn cho phản ứng biuret.", v:false, e:"Sai, cần từ tripeptide." },
+      { x:"Protein đơn giản thủy phân hoàn toàn → α-amino acid.", v:true, e:"Đúng." }
+    ] },
+  { t:"sa", q:"Cho 6,2 gam aniline C<sub>6</sub>H<sub>5</sub>NH<sub>2</sub> (M = 93) tác dụng vừa đủ với HCl. Tính khối lượng muối (gam).",
+    a:12.95, tol:0.05,
+    e:"n = 6,2/93 ≈ 0,0667 mol. m(muối) = 6,2 + 0,0667×36,5 ≈ 12,95 gam." }
+ ],
+ lab:{
+  title:"Ba lọ mất nhãn: amine, amino acid và protein",
+  intro:"Ba dung dịch không màu bị mất nhãn. Hãy dùng thuốc thử để xác định methylamine, glycine và lòng trắng trứng.",
+  samples:["Dung dịch methylamine (CH<sub>3</sub>NH<sub>2</sub>)","Dung dịch glycine (H<sub>2</sub>NCH<sub>2</sub>COOH)","Dung dịch protein (lòng trắng trứng)"],
+  reagents:[
+   { n:"Quỳ tím", r:["Quỳ tím hóa xanh","Quỳ tím không đổi màu","Quỳ tím không đổi màu"] },
+   { n:"Đun nóng", r:[NOP,NOP,"Xuất hiện kết tủa trắng đục (đông tụ)"] },
+   { n:"HNO<sub>3</sub> đặc", r:["Không có kết tủa","Không có kết tủa","Xuất hiện kết tủa vàng"] },
+   { n:"AgNO<sub>3</sub>/NH<sub>3</sub>, đun nóng", r:[NOP,NOP,NOP] }
+  ],
+  explain:"Quỳ tím hóa xanh → methylamine. Protein đông tụ khi đun và cho kết tủa vàng với HNO<sub>3</sub> đặc. Lọ còn lại là glycine."
+ },
+ ask:["So sánh lực base của các amine như thế nào?","Cách đếm số peptide tạo từ Gly và Ala?","Vì sao glutamic acid làm quỳ tím hóa đỏ?"]
+},
+/* ===== CHƯƠNG 4 ===== */
+{
+ id:4, sym:"n", ac:"#a78bfa", acink:"#1a1240",
+ name:"Polymer", sub:"Monomer, trùng hợp, trùng ngưng, vật liệu",
+ lessons:[
+  { t:"Khái niệm và các polymer thường gặp", h:
+   '<p>Polymer là hợp chất có phân tử khối rất lớn do nhiều đơn vị nhỏ gọi là <b>mắt xích</b> liên kết với nhau. <b>Monomer</b> là phân tử nhỏ phản ứng với nhau tạo ra polymer. Hệ số n gọi là <b>hệ số polymer hóa</b>.</p>' +
+   RX('M(polymer) = n × M(mắt xích)') +
+   T(["Polymer","Monomer","Phản ứng"],[
+     ["polyethylene (PE)","CH<sub>2</sub>=CH<sub>2</sub>","trùng hợp"],
+     ["poly(vinyl chloride) (PVC)","CH<sub>2</sub>=CHCl","trùng hợp"],
+     ["polystyrene (PS)","CH<sub>2</sub>=CH–C<sub>6</sub>H<sub>5</sub>","trùng hợp"],
+     ["poly(methyl methacrylate) (PMMA)","CH<sub>2</sub>=C(CH<sub>3</sub>)COOCH<sub>3</sub>","trùng hợp"],
+     ["polyacrylonitrile (tơ olon)","CH<sub>2</sub>=CH–CN","trùng hợp"],
+     ["polyisoprene (cao su thiên nhiên)","isoprene","trùng hợp"],
+     ["polybutadiene (cao su buna)","buta-1,3-diene","trùng hợp"],
+     ["nylon-6,6","H<sub>2</sub>N[CH<sub>2</sub>]<sub>6</sub>NH<sub>2</sub> + HOOC[CH<sub>2</sub>]<sub>4</sub>COOH","trùng ngưng"],
+     ["nylon-6 (capron)","H<sub>2</sub>N[CH<sub>2</sub>]<sub>5</sub>COOH","trùng ngưng"],
+     ["PET","HOOC–C<sub>6</sub>H<sub>4</sub>–COOH + HOCH<sub>2</sub>CH<sub>2</sub>OH","trùng ngưng"]
+   ]) },
+  { t:"Phân loại và cách điều chế", h:
+   '<p><b>Theo nguồn gốc:</b> thiên nhiên (cellulose, tinh bột, cao su thiên nhiên, tơ tằm), tổng hợp (PE, PVC, nylon), bán tổng hợp (tơ visco, tơ acetate).</p>' +
+   T(["","Trùng hợp","Trùng ngưng"],[
+     ["Bản chất","Kết hợp nhiều phân tử nhỏ giống nhau thành polymer","Kết hợp nhiều phân tử nhỏ thành polymer + giải phóng phân tử nhỏ (H<sub>2</sub>O…)"],
+     ["Điều kiện monomer","Có liên kết bội (C=C) hoặc vòng kém bền","Có từ 2 nhóm chức trở lên có khả năng phản ứng"],
+     ["Ví dụ","nCH<sub>2</sub>=CH<sub>2</sub> → (–CH<sub>2</sub>–CH<sub>2</sub>–)<sub>n</sub>","nH<sub>2</sub>N[CH<sub>2</sub>]<sub>6</sub>NH<sub>2</sub> + nHOOC[CH<sub>2</sub>]<sub>4</sub>COOH → nylon-6,6 + 2nH<sub>2</sub>O"]
+   ]) },
+  { t:"Chất dẻo, tơ, cao su, composite", h:
+   '<ul><li><b>Chất dẻo:</b> PE, PVC, PS, PMMA…</li>' +
+   '<li><b>Tơ:</b> thiên nhiên (bông, tơ tằm), bán tổng hợp (visco, acetate), tổng hợp (nylon-6,6, capron, olon).</li>' +
+   '<li><b>Cao su:</b> thiên nhiên (polyisoprene); buna (polybutadiene); buna-S, buna-N.</li>' +
+   '<li><b>Composite:</b> chất nền (polymer) + chất độn (sợi, bột…).</li></ul>' },
+  { t:"Lưu hóa cao su", h:
+   '<p>Đun nóng cao su với lưu huỳnh tạo cầu nối disulfide (–S–S–) giữa các mạch → cấu trúc mạng không gian.</p>' +
+   KEY('Cao su lưu hóa đàn hồi tốt hơn, bền hơn, chịu nhiệt và khó tan hơn cao su thô.') },
+  { t:"Mẹo giải nhanh", h:
+   '<ul><li>n = M(polymer) / M(mắt xích). Ví dụ PVC M = 250000 → n = 4000.</li>' +
+   '<li>Trùng hợp: m(polymer) = m(monomer) × H.</li>' +
+   '<li>Trùng ngưng: m(polymer) = m(monomer) – m(H<sub>2</sub>O).</li>' +
+   '<li>Nhận biết bằng đốt: tơ tằm mùi tóc cháy; bông mùi giấy cháy; PVC khó cháy, khói đen, mùi xốc.</li></ul>' }
+ ],
+ cards:[
+  ["Monomer là gì?","Phân tử nhỏ phản ứng với nhau để tạo thành polymer"],
+  ["Điều kiện monomer để trùng hợp","Có liên kết bội (C=C) hoặc vòng kém bền"],
+  ["Điều kiện monomer để trùng ngưng","Có từ 2 nhóm chức trở lên"],
+  ["Monomer của PVC","Vinyl chloride CH<sub>2</sub>=CHCl"],
+  ["Thủy tinh hữu cơ (plexiglas)","PMMA từ methyl methacrylate"],
+  ["Nylon-6,6 điều chế từ","Hexamethylenediamine + adipic acid (trùng ngưng)"],
+  ["Tơ olon từ monomer nào?","Acrylonitrile CH<sub>2</sub>=CH–CN"],
+  ["Cao su thiên nhiên","Polyisoprene, monomer isoprene"],
+  ["Lưu hóa cao su","Đun với lưu huỳnh, tạo cầu –S–S–, mạng không gian"],
+  ["Tơ visco và tơ acetate","Tơ bán tổng hợp, chế biến từ cellulose"],
+  ["Chất dẻo là gì?","Vật liệu polymer có tính dẻo"],
+  ["Composite là gì?","Vật liệu tổ hợp từ ít nhất hai vật liệu khác nhau"]
+ ],
+ quiz:[
+  { t:"mcq", q:"Polymer nào sau đây được điều chế bằng phản ứng trùng ngưng?",
+    o:["Polyethylene (PE)","Poly(vinyl chloride) (PVC)","Polystyrene (PS)","Nylon-6,6"], a:3,
+    e:"Nylon-6,6 tạo từ diamine + diacid, giải phóng H<sub>2</sub>O → trùng ngưng." },
+  { t:"mcq", q:"Monomer dùng để điều chế PMMA là:",
+    o:["CH<sub>2</sub>=CH–COOCH<sub>3</sub>","CH<sub>2</sub>=C(CH<sub>3</sub>)–COOCH<sub>3</sub>","CH<sub>3</sub>COOCH=CH<sub>2</sub>","CH<sub>2</sub>=CH–CN"], a:1,
+    e:"PMMA từ methyl methacrylate." },
+  { t:"mcq", q:"Tơ nào sau đây thuộc loại tơ bán tổng hợp?",
+    o:["Tơ nylon-6,6","Tơ visco","Tơ tằm","Tơ olon"], a:1,
+    e:"Tơ visco chế biến từ cellulose." },
+  { t:"mcq", q:"Lưu hóa cao su là quá trình:",
+    o:["Trùng hợp isoprene","Đun nóng cao su với lưu huỳnh tạo cầu –S–S–","Hydro hóa cao su","Thủy phân cao su bằng acid"], a:1,
+    e:"Cầu disulfide tạo mạng không gian, bền và đàn hồi hơn." },
+  { t:"mcq", q:"Cao su thiên nhiên là polymer của monomer nào?",
+    o:["Buta-1,3-diene","Isoprene","Styrene","Chloroprene"], a:1,
+    e:"Polyisoprene từ isoprene." },
+  { t:"tf", q:"Cho các phát biểu về polymer:",
+    s:[
+      { x:"Monomer trùng hợp phải có liên kết bội hoặc vòng kém bền.", v:true, e:"Đúng." },
+      { x:"Nylon-6,6 điều chế bằng trùng hợp.", v:false, e:"Sai, trùng ngưng." },
+      { x:"Tơ visco là tơ tổng hợp.", v:false, e:"Sai, tơ bán tổng hợp." },
+      { x:"Cao su lưu hóa có cấu trúc mạng không gian.", v:true, e:"Đúng." }
+    ] },
+  { t:"sa", q:"PVC có phân tử khối 250 000. Tính n. M(mắt xích –CH<sub>2</sub>–CHCl–) = 62,5.",
+    a:4000, tol:0.5,
+    e:"n = 250000 / 62,5 = 4000." },
+  { t:"sa", q:"Trùng hợp 28 gam ethylene, hiệu suất 80%. Tính khối lượng PE thu được (gam).",
+    a:22.4, tol:0.02,
+    e:"m = 28 × 0,8 = 22,4 gam." },
+  { t:"mcq", q:"Polyethylene (PE) được điều chế trực tiếp từ monomer nào?",
+    o:["Ethylene","Vinyl chloride","Styrene","Acrylonitrile"], a:0,
+    e:"PE từ trùng hợp ethylene (CH<sub>2</sub>=CH<sub>2</sub>)." },
+  { t:"mcq", q:"Polymer nào sau đây thuộc loại polymer thiên nhiên?",
+    o:["PVC","Teflon","Cellulose","PE"], a:2,
+    e:"Cellulose có sẵn trong gỗ, bông." },
+  { t:"mcq", q:"Monomer dùng để điều chế PVC là",
+    o:["CH<sub>2</sub>=CH<sub>2</sub>","CH<sub>2</sub>=CHCl","CF<sub>2</sub>=CF<sub>2</sub>","CH<sub>2</sub>=CH–C<sub>6</sub>H<sub>5</sub>"], a:1,
+    e:"PVC từ vinyl chloride." },
+  { t:"mcq", q:"Phản ứng trùng ngưng đồng thời giải phóng",
+    o:["Các phân tử nhỏ khác (như H<sub>2</sub>O)","Khí CO<sub>2</sub>","Chất béo","Muối ăn"], a:0,
+    e:"Trùng ngưng tạo polymer kèm tách H<sub>2</sub>O (hoặc phân tử nhỏ)." },
+  { t:"mcq", q:"Tơ olon được điều chế từ monomer",
+    o:["CH<sub>2</sub>=CH–CN","CH<sub>2</sub>=CHCl","Isoprene","Styrene"], a:0,
+    e:"Polyacrylonitrile từ acrylonitrile." },
+  { t:"tf", q:"Cho các phát biểu về vật liệu polymer:",
+    s:[
+      { x:"PMMA còn gọi là thủy tinh hữu cơ.", v:true, e:"Đúng." },
+      { x:"Cao su buna từ buta-1,3-diene.", v:true, e:"Đúng." },
+      { x:"Trùng hợp và trùng ngưng đều luôn giải phóng H<sub>2</sub>O.", v:false, e:"Sai, chỉ trùng ngưng." },
+      { x:"Composite gồm chất nền polymer và chất độn.", v:true, e:"Đúng." }
+    ] },
+  { t:"sa", q:"Trùng ngưng tạo nylon-6,6. Nếu dùng 11,6 gam hexamethylenediamine (M=116) và lượng vừa đủ adipic acid, giả sử hiệu suất 100%, số mol H<sub>2</sub>O giải phóng là",
+    a:0.2, tol:0.01,
+    e:"n(diamine)=0,1 → mỗi cặp tạo 2 H<sub>2</sub>O → 0,2 mol (theo tỉ lệ phản ứng chuẩn)." }
+ ],
+ lab:{
+  title:"Ba mẫu vật liệu: PVC, tơ tằm và sợi bông",
+  intro:"Ba mẫu vật liệu bị lẫn nhãn. Dùng các phép thử để xác định.",
+  samples:["Nhựa PVC","Tơ tằm","Sợi bông (cellulose)"],
+  reagents:[
+   { n:"Đốt mẫu", r:["Khó bắt lửa, khói đen, mùi xốc, tắt khi rời lửa","Cháy chậm, mùi tóc cháy, tro vón cục","Cháy nhanh, mùi giấy cháy, tro xám mịn"] },
+   { n:"Đun nóng với NaOH loãng", r:[NOP,"Sợi tơ mềm dần rồi tan",NOP] },
+   { n:"Nhỏ HNO<sub>3</sub> đặc", r:["Không đổi màu","Chuyển sang màu vàng","Không đổi màu"] },
+   { n:"Ngâm trong nước", r:[NOP,NOP,NOP] }
+  ],
+  explain:"Mùi tóc cháy → tơ tằm (protein). Mùi giấy cháy → bông. Khó cháy mùi xốc → PVC. Tơ tằm còn vàng với HNO<sub>3</sub> và tan trong kiềm."
+ },
+ ask:["Khác nhau giữa trùng hợp và trùng ngưng?","Cách tính số mắt xích của polymer?","Vì sao lưu hóa làm cao su bền hơn?"]
+}
+];
+
+/* ---------- 4 đề cuối kỳ (đúng form 3 phần: MCQ + Đúng/Sai + TL ngắn) ---------- */
+var EXAMS = [
+{
+ id:"hk1", name:"Đề 1", level:"Cơ bản",
+ intro:"Đề ôn tập cuối HK1 · 3 phần (MCQ · Đúng/Sai · Trả lời ngắn).",
+ p1:[
+  { q:"Ester no, đơn chức, mạch hở có công thức chung là", o:["CₙH₂ₙO₂ (n ≥ 2)","CₙH₂ₙ₊₂O₂ (n ≥ 2)","CₙH₂ₙ₋₂O₂ (n ≥ 2)","CₙH₂ₙO₂ (n ≥ 1)"], a:0, e:"Công thức CₙH₂ₙO₂ với n ≥ 2." },
+  { q:"Thành phần chính của xà phòng là", o:["C₆H₅COONa","C₁₇H₃₅COONa","CH₃[CH₂]₁₁OSO₃Na","CH₃[CH₂]₁₁SO₃Na"], a:1, e:"Muối sodium (hoặc potassium) của acid béo." },
+  { q:"Hợp chất đường chiếm thành phần chủ yếu trong quả nho chín là", o:["Glucose","Fructose","Saccharose","Tinh bột"], a:0, e:"Nho chín giàu glucose." },
+  { q:"Polysaccharide mạch phân nhánh, nhiều trong ngũ cốc, dùng làm lương thực là", o:["Cellulose","Amylose","Amylopectin","Glycogen"], a:2, e:"Amylopectin phân nhánh, thành phần chính tinh bột ngũ cốc." },
+  { q:"Amino acid chứa nhóm chức nào?", o:["Chỉ amine","Chỉ carboxyl","Cả amine và carboxyl","Amine và hydroxyl"], a:2, e:"–NH₂ và –COOH." },
+  { q:"Tính chất vật lí chung của polymer thường là", o:["Chất lỏng, tan nước","Chất rắn, không bay hơi, không tan nước","Chất lỏng không màu","Chất rắn dễ tan nước"], a:1, e:"Polymer thường rắn, phân tử khối lớn, khó bay hơi." },
+  { q:"Composite thường gồm hai thành phần chính là", o:["Nền và phụ gia","Cốt và lớp sơn","Nền và vật liệu cốt","Cốt và chất độn"], a:2, e:"Vật liệu nền + vật liệu cốt." },
+  { q:"Xà phòng hóa CH₃COOC₂H₅ bằng KOH dư, đun nóng, thu được", o:["CH₃COOH và C₂H₅OH","CH₃COOK và C₂H₅OH","C₂H₅COOK và CH₃OH","HCOOK và C₃H₇OH"], a:1, e:"Muối potassium acetate + ethanol." },
+  { q:"Chất nào tác dụng được với thuốc thử Tollens?", o:["Saccharose","Tinh bột","Albumin","Glucose"], a:3, e:"Glucose có –CHO → tráng bạc." },
+  { q:"PE được điều chế từ monomer", o:["Ethylene","Vinyl chloride","Styrene","Acrylonitrile"], a:0, e:"Trùng hợp CH₂=CH₂." },
+  { q:"Nylon-6,6 điều chế bằng phản ứng", o:["Trùng hợp","Trùng ngưng","Thủy phân","Xà phòng hóa"], a:1, e:"Diamine + diacid, tách H₂O." },
+  { q:"Tơ visco thuộc loại", o:["Thiên nhiên","Bán tổng hợp","Tổng hợp","Composite"], a:1, e:"Chế biến từ cellulose." }
+ ],
+ p2:[
+  { q:"Cho các chất: polybuta-1,3-diene, PMMA, polystyrene, len lông cừu, polyacrylonitrile, cellulose, polychloroprene.",
+    s:[
+      { x:"Có 2 chất dùng chế tạo cao su (polybutadiene, polychloroprene).", v:true, e:"Đúng." },
+      { x:"Có 2 chất dùng chế tạo chất dẻo (PMMA, polystyrene).", v:true, e:"Đúng (có thể kể thêm)." },
+      { x:"Có 2 chất là polymer thiên nhiên (len, cellulose).", v:true, e:"Đúng." },
+      { x:"Có 4 chất tác dụng với NaOH đun nóng.", v:false, e:"Sai — không đủ 4 chất phản ứng với NaOH theo cách đó." }
+    ]},
+  { q:"Cho các phát biểu về ester và chất béo:",
+    s:[
+      { x:"Xà phòng hóa là phản ứng một chiều.", v:true, e:"Đúng." },
+      { x:"Dầu thực vật thường giàu gốc acid béo không no hơn mỡ động vật.", v:true, e:"Đúng." },
+      { x:"Đốt cháy ester no mạch hở luôn có n(CO₂) = n(H₂O).", v:true, e:"Đúng với ester no đơn chức mạch hở." },
+      { x:"Chất béo không phải polymer.", v:true, e:"Đúng — triglyceride, không phải polymer." }
+    ]}
+ ],
+ p3:[
+  { q:"Có bao nhiêu polymer thiên nhiên trong: (1) tơ tằm, (2) sợi bông, (3) sợi đay, (4) cellulose triacetate, (5) tinh bột?", a:4, tol:0, e:"(1)(2)(3)(5) — cellulose triacetate là bán tổng hợp. Đáp số: 4." },
+  { q:"Trong: PE, PVC, PP, PS, nylon-6,6, caproamide — có bao nhiêu polymer tổng hợp bằng trùng ngưng?", a:2, tol:0, e:"Nylon-6,6 và caproamide (nylon-6). Đáp số: 2." },
+  { q:"Xà phòng hóa hoàn toàn 17,8 gam tristearin (M=890) bằng NaOH dư. Khối lượng muối C₁₇H₃₅COONa (M=306) thu được (gam) là?", a:18.36, tol:0.05, e:"n=0,02 → 0,06 mol muối → 18,36 gam." }
+ ]
+},
+{
+ id:"hk2", name:"Đề 2", level:"Trung bình",
+ intro:"Đề ôn tập cuối HK1 · 3 phần.",
+ p1:[
+  { q:"Chất nào sau đây không phải polymer?", o:["Tinh bột","Protein","Enzyme","Chất béo"], a:3, e:"Chất béo là triglyceride, không phải polymer." },
+  { q:"Poly(phenol-formaldehyde) được điều chế từ phản ứng", o:["Trùng hợp","Trùng ngưng","Thủy phân","Xà phòng hóa"], a:1, e:"Trùng ngưng phenol + formaldehyde." },
+  { q:"Phát biểu nào không đúng về tơ?", o:["Tơ tằm là polypeptide","Tơ bền trong cả acid và base mạnh","Tơ chia tự nhiên / tổng hợp / bán tổng hợp","Tơ là polymer hình sợi, mạch dài"], a:1, e:"Tơ (đặc biệt tơ tằm/protein) không bền với acid/base mạnh." },
+  { q:"Glucose + Cu(OH)₂ ở nhiệt độ thường tạo", o:["Kết tủa đỏ gạch","Dung dịch xanh lam","Lớp bạc","Khí CO₂"], a:1, e:"Nhiều –OH kề nhau." },
+  { q:"Thủy phân hoàn toàn saccharose trong acid thu được", o:["Glucose + fructose","Hai glucose","Glucose + galactose","Glycerol + acid béo"], a:0, e:"α-glucose + β-fructose." },
+  { q:"Aniline + nước bromine tạo", o:["Không kết tủa","Kết tủa trắng","Khí không màu","Kết tủa vàng"], a:1, e:"2,4,6-tribromoaniline." },
+  { q:"Lực base đúng là", o:["Aniline > NH₃ > CH₃NH₂","CH₃NH₂ > NH₃ > aniline","NH₃ > CH₃NH₂ > aniline","Aniline > CH₃NH₂ > NH₃"], a:1, e:"Alkylamine > ammonia > aniline." },
+  { q:"Liên kết peptide có dạng", o:["–COO–","–CO–NH–","–O–","–S–S–"], a:1, e:"–CO–NH–." },
+  { q:"Monomer của PVC là", o:["CH₂=CH₂","CH₂=CHCl","CF₂=CF₂","Styrene"], a:1, e:"Vinyl chloride." },
+  { q:"Lưu hóa cao su là", o:["Trùng hợp isoprene","Đun cao su với lưu huỳnh tạo cầu –S–S–","Hydro hóa","Thủy phân"], a:1, e:"Mạng không gian nhờ cầu disulfide." },
+  { q:"Ưu điểm chất giặt rửa tổng hợp so với xà phòng", o:["Từ chất béo tự nhiên","Giặt được trong nước cứng","Không có phần ưa nước","Là muối acid béo"], a:1, e:"Không kết tủa Ca²⁺, Mg²⁺." },
+  { q:"Phân biệt glucose và fructose dùng", o:["Iodine","Nước bromine","Quỳ tím","NaCl"], a:1, e:"Glucose mất màu Br₂." }
+ ],
+ p2:[
+  { q:"Cho các phát biểu về carbohydrate:",
+    s:[
+      { x:"Glucose và fructose là đồng phân.", v:true, e:"Đúng, C₆H₁₂O₆." },
+      { x:"Saccharose tráng bạc trực tiếp.", v:false, e:"Sai — không có –CHO tự do." },
+      { x:"Tinh bột + I₂ → xanh tím.", v:true, e:"Đúng." },
+      { x:"Cellulose từ mắt xích α-glucose.", v:false, e:"Sai — β-glucose." }
+    ]},
+  { q:"Cho các phát biểu về amine và protein:",
+    s:[
+      { x:"Glycine có tính lưỡng tính.", v:true, e:"Đúng." },
+      { x:"Dung dịch glycine làm quỳ tím hóa xanh.", v:false, e:"Sai — trung tính về số nhóm chức." },
+      { x:"Dipeptide luôn cho phản ứng biuret.", v:false, e:"Sai — cần ≥ 2 liên kết peptide." },
+      { x:"Protein đơn giản thủy phân → α-amino acid.", v:true, e:"Đúng." }
+    ]}
+ ],
+ p3:[
+  { q:"Lên men hoàn toàn 36 gam glucose (H=100%). Thể tích CO₂ ở đktc (lít) là?", a:8.96, tol:0.05, e:"n=0,2 → 0,4 mol CO₂ → 8,96 L." },
+  { q:"Thủy phân hoàn toàn 32,4 gam tinh bột (H=100%). Khối lượng glucose (gam) là?", a:36, tol:0.2, e:"162 → 180; 32,4 → 36." },
+  { q:"Cho 4,5 gam C₂H₅NH₂ tác dụng vừa đủ HCl. Khối lượng muối (gam) là?", a:8.15, tol:0.05, e:"n=0,1; m=4,5+3,65=8,15." }
+ ]
+},
+{
+ id:"hk3", name:"Đề 3", level:"Nâng cao",
+ intro:"Đề ôn tập cuối HK1 · mức vận dụng cao hơn.",
+ p1:[
+  { q:"Ester C₄H₈O₂ no đơn chức mạch hở có tối đa bao nhiêu đồng phân cấu tạo?", o:["2","3","4","5"], a:2, e:"4 đồng phân." },
+  { q:"Chất nào đun với NaOH dư thu được hai muối?", o:["CH₃COOCH₃","CH₃COOC₆H₅","HCOOC₂H₅","CH₃COOCH=CH₂"], a:1, e:"Ester phenol." },
+  { q:"Hydro hóa hoàn toàn triolein (Ni, t°) thu được", o:["Tripalmitin","Tristearin","Trilinolein","Triacetin"], a:1, e:"Oleate → stearate." },
+  { q:"1 mol saccharose thủy phân rồi tráng bạc tối đa tạo", o:["2 mol Ag","4 mol Ag","1 mol Ag","6 mol Ag"], a:1, e:"Glucose + fructose → 4 Ag." },
+  { q:"Biuret cần ít nhất", o:["1 liên kết peptide","2 liên kết peptide","Nhóm –NH₂","Nhóm –COOH"], a:1, e:"Từ tripeptide." },
+  { q:"PVC M=250000, M(mắt xích)=62,5 → n =", o:["2000","4000","2500","6250"], a:1, e:"4000." },
+  { q:"Ester nào tráng bạc?", o:["CH₃COOC₂H₅","HCOOCH₃","C₆H₅COOCH₃","CH₃COOCH=CH₂"], a:1, e:"HCOOR." },
+  { q:"Glutamic acid làm quỳ tím", o:["Hóa xanh","Hóa đỏ","Không đổi","Tím đậm"], a:1, e:"2 –COOH, 1 –NH₂." },
+  { q:"Cao su thiên nhiên là polymer của", o:["Buta-1,3-diene","Isoprene","Styrene","Chloroprene"], a:1, e:"Polyisoprene." },
+  { q:"Khi đun vinyl acetate với NaOH thu được", o:["Hai muối","CH₃COONa và CH₃CHO","Chỉ alcohol","Không phản ứng"], a:1, e:"Ester vinyl → muối + aldehyde." },
+  { q:"Số dipeptide từ Gly và Ala (không xét đồng phân quang) là", o:["1","2","3","4"], a:1, e:"Gly–Ala và Ala–Gly." },
+  { q:"Tơ olon từ monomer", o:["CH₂=CH–CN","CH₂=CHCl","Isoprene","Styrene"], a:0, e:"Acrylonitrile." }
+ ],
+ p2:[
+  { q:"Cho các nhận xét:",
+    s:[
+      { x:"Trong phản ứng với H₂ (Ni, t°), glucose là chất oxi hóa.", v:true, e:"Đúng — –CHO bị khử." },
+      { x:"Nylon-6,6 còn gọi là polypeptide.", v:false, e:"Sai — polyamide tổng hợp, không phải peptide sinh học." },
+      { x:"Đốt ester no mạch hở: n(CO₂)=n(H₂O).", v:true, e:"Đúng." },
+      { x:"Mọi peptide đều thủy phân được.", v:true, e:"Đúng trong điều kiện thích hợp." }
+    ]},
+  { q:"Cho các phát biểu về polymer:",
+    s:[
+      { x:"Monomer trùng hợp cần liên kết bội hoặc vòng kém bền.", v:true, e:"Đúng." },
+      { x:"Nylon-6,6 điều chế bằng trùng hợp.", v:false, e:"Sai — trùng ngưng." },
+      { x:"Tơ visco là tơ tổng hợp.", v:false, e:"Sai — bán tổng hợp." },
+      { x:"Cao su lưu hóa có mạng không gian.", v:true, e:"Đúng." }
+    ]}
+ ],
+ p3:[
+  { q:"Xà phòng hóa 8,84 gam triolein (M=884) bằng NaOH dư. Số mol NaOH phản ứng là?", a:0.03, tol:0.001, e:"n=0,01 → 0,03 mol NaOH." },
+  { q:"Lên men 90 gam glucose, H=80%. Khối lượng ethanol (M=46) thu được (gam) là?", a:36.8, tol:0.2, e:"n=0,5 → lý thuyết 46 gam ethanol; 80% → 36,8." },
+  { q:"Trùng hợp 28 gam ethylene, H=80%. Khối lượng PE (gam) là?", a:22.4, tol:0.1, e:"28×0,8=22,4." }
+ ]
+},
+{
+ id:"hk4", name:"Đề 4", level:"Tổng hợp",
+ intro:"Đề tổng hợp cuối HK1 · phủ đủ 4 chương.",
+ p1:[
+  { q:"Chất béo là", o:["Muối Na của acid béo","Triester glycerol–acid béo","Polymer glucose","Alcohol đa chức"], a:1, e:"Triglyceride." },
+  { q:"Carbohydrate không bị thủy phân", o:["Glucose","Saccharose","Tinh bột","Cellulose"], a:0, e:"Monosaccharide." },
+  { q:"Amine bậc 1 là", o:["CH₃NH₂","(CH₃)₂NH","(CH₃)₃N","CH₃–NH–C₂H₅"], a:0, e:"Một gốc gắn N." },
+  { q:"PMMA từ monomer", o:["CH₂=CH–COOCH₃","CH₂=C(CH₃)–COOCH₃","CH₃COOCH=CH₂","CH₂=CH–CN"], a:1, e:"Methyl methacrylate." },
+  { q:"Xà phòng hóa tristearin: tỉ lệ mol tristearin : NaOH", o:["1:1","1:2","1:3","1:4"], a:2, e:"3 nhóm ester." },
+  { q:"Protein đông tụ bởi", o:["Nước lạnh","Nhiệt độ cao / hóa chất","O₂ thường","Đường loãng"], a:1, e:"Biến tính." },
+  { q:"Trùng ngưng khác trùng hợp ở chỗ", o:["Luôn dùng C=C","Giải phóng phân tử nhỏ (H₂O…)","Không tạo polymer","Chỉ từ thiên nhiên"], a:1, e:"Tách H₂O." },
+  { q:"Dầu thực vật lỏng vì gốc acid béo", o:["No","Không no","Có N","Có vòng"], a:1, e:"Nhiều nối đôi." },
+  { q:"Maltose khác saccharose ở chỗ", o:["Công thức phân tử","Có –CHO tự do (tráng bạc)","Không thủy phân","Là polysaccharide"], a:1, e:"Maltose tráng bạc." },
+  { q:"Enzyme trong cơ thể có chức năng", o:["Cấu trúc tế bào","Chất điện giải","Dự trữ năng lượng","Xúc tác sinh học"], a:3, e:"Xúc tác sinh học." },
+  { q:"Tơ tằm thuộc loại", o:["Polysaccharide","Polypeptide","Polyamide tổng hợp","Polyester"], a:1, e:"Protein — polypeptide." },
+  { q:"Số chất trùng hợp được trong: CH₂=CHCl; CH₂=CH–CH₃; CH₂=CH–CH=CH₂; H₂N[CH₂]₅COOH là", o:["3","1","4","2"], a:0, e:"Ba chất có C=C; amino acid cuối trùng ngưng." }
+ ],
+ p2:[
+  { q:"Cho các phát biểu về chất béo và xà phòng:",
+    s:[
+      { x:"Tristearin có M = 890.", v:true, e:"Đúng." },
+      { x:"Xà phòng hóa chất béo: n(NaOH)=3·n(chất béo).", v:true, e:"Đúng." },
+      { x:"Xà phòng giặt tốt trong nước cứng nhờ kết tủa với Ca²⁺.", v:false, e:"Sai — kết tủa làm giảm hiệu quả." },
+      { x:"Hydro hóa triolein thu tristearin.", v:true, e:"Đúng." }
+    ]},
+  { q:"Cho các phát biểu về amine:",
+    s:[
+      { x:"Tất cả amine đều làm quỳ tím ẩm hóa xanh.", v:false, e:"Sai — aniline quá yếu." },
+      { x:"Rửa ống nghiệm aniline có thể dùng HCl.", v:true, e:"Đúng — tạo muối tan." },
+      { x:"Aniline base mạnh hơn ammonia.", v:false, e:"Sai — yếu hơn." },
+      { x:"Cu(OH)₂ tan trong dung dịch ethylamine (phức).", v:true, e:"Đúng." }
+    ]}
+ ],
+ p3:[
+  { q:"Cho 7,5 gam glycine (M=75) + NaOH vừa đủ. Khối lượng muối H₂NCH₂COONa (M=97) (gam) là?", a:9.7, tol:0.05, e:"n=0,1 → 9,7 gam." },
+  { q:"Có bao nhiêu tính chất đúng với saccharose trong: (1) vị ngọt (2) dễ tan nước (3) tráng bạc (4) thủy phân acid (5) hòa tan Cu(OH)₂ xanh lam?", a:4, tol:0, e:"(1)(2)(4)(5) — không tráng bạc. Đáp số: 4." },
+  { q:"Dầu cá: mỗi viên 300 mg EPA và 200 mg DHA. Cần 1 g EPA và 800 mg DHA/ngày. Số viên tối thiểu mỗi ngày là?", a:4, tol:0, e:"EPA: 1000/300≈3,33→4; DHA: 800/200=4 → 4 viên." }
+ ]
+}
+];
+
+/* ---------- state & shell ---------- */
+var S = { view:"home", ch:0, tab:"learn", examId:null };
+var app = $("#app");
+
+function go(view, ch){ S.view = view; if (ch !== undefined) S.ch = ch; S.tab = "learn"; window.scrollTo(0,0); render(); }
+$("#brand").onclick = function(){ go("home"); };
+
+function render(){
+  if (S.view === "home") return renderHome();
+  if (S.view === "mix") return renderMix();
+  renderChapter();
+}
+
+/* ---------- home ---------- */
+function progText(ch){
+  var p = cp(ch.id), kn = Object.keys(p.known).length;
+  return "Ôn nhanh " + kn + "/" + ch.cards.length + " · Bài tập " + (p.quiz ? p.quiz + "%" : "chưa làm") + " · Lab " + (p.lab ? p.lab + " điểm" : "chưa làm");
+}
+function renderHome(){
+  var greet = P.name ? "Xin chào, <b style=\"color:var(--cyan)\">"+P.name+"</b> · Chuỗi "+P.dayStreak+" ngày" : "";
+  var h = '<section class="hero"><div class="eyebrow">CHEMISTRY • KNOWLEDGE • ARENA</div><h1>Chinh phục đấu trường<br><span>Hóa học 12</span></h1><p>Ôn tập kiến thức qua thử thách tương tác. Mỗi chương có nền tảng, ôn nhanh, bài tập và phòng lab nhận biết.</p>'+(greet?'<p style="margin-top:8px;font-size:.95rem">'+greet+'</p>':'')+'</section><div class="grid">';
+  CH.forEach(function(ch, i){
+    h += '<button class="cc" type="button" data-ch="'+i+'" style="--ac:'+ch.ac+';--acink:'+ch.acink+'">' +
+      '<div class="tile"><small>'+ch.id+'</small>'+ch.sym+'</div>' +
+      '<div><h3>Chương '+ch.id+'. '+ch.name+'</h3><div class="sub">'+ch.sub+'</div><div class="pg">'+progText(ch)+'</div></div></button>';
+  });
+  h += '<button class="cc mixcard" type="button" id="mixBtn" style="--ac:var(--gold);--acink:#2a1a00"><div class="tile">∑</div><div><h3>Đề cuối kỳ học kỳ I</h3><div class="sub">4 đề · form 3 phần (MCQ · Đúng/Sai · TL ngắn)</div><div class="pg">'+examProgText()+'</div></div></button></div>';
+  h += '<p class="note">Nội dung theo khung chương trình Hóa học 12 học kỳ I. Tiến độ & bảng xếp hạng tuần lưu trên thiết bị này. Chạm kính lúp góc phải để hỏi nhanh.</p>';
+  app.innerHTML = h;
+  app.querySelectorAll("[data-ch]").forEach(function(b){ b.onclick = function(){ go("ch", parseInt(b.getAttribute("data-ch"),10)); }; });
+  $("#mixBtn").onclick = function(){ go("mix"); };
+}
+function examProgText(){
+  if (!P.exams) P.exams = {};
+  var done = 0, best = 0;
+  EXAMS.forEach(function(ex){ var s = P.exams[ex.id]; if (s) { done++; if (s > best) best = s; } });
+  if (!done) return "Chưa làm đề nào";
+  return "Đã làm "+done+"/"+EXAMS.length+" đề · Cao nhất "+best+"%";
+}
+
+/* ---------- chapter shell ---------- */
+var TABS = [["learn","Nền tảng"],["cards","Ôn nhanh"],["quiz","Bài tập"],["lab","Phòng lab"]];
+function renderChapter(){
+  var ch = CH[S.ch];
+  var h = '<div style="--ac:'+ch.ac+';--acink:'+ch.acink+'"><button class="link" type="button" id="back">‹ Tất cả chương</button>' +
+    '<div class="chhead"><div class="tile"><small>'+ch.id+'</small>'+ch.sym+'</div><div><h2>'+ch.name+'</h2><p>'+ch.sub+'</p></div></div>' +
+    '<div class="tabs" role="tablist">' + TABS.map(function(t){ return '<button class="tab" role="tab" type="button" data-tab="'+t[0]+'" aria-selected="'+(S.tab===t[0])+'">'+t[1]+'</button>'; }).join("") + '</div>' +
+    '<div id="tabBody"></div></div>';
+  app.innerHTML = h;
+  $("#back").onclick = function(){ go("home"); };
+  app.querySelectorAll(".tab").forEach(function(b){
+    b.onclick = function(){ S.tab = b.getAttribute("data-tab"); app.querySelectorAll(".tab").forEach(function(x){ x.setAttribute("aria-selected", String(x === b)); }); mountTab(); };
+  });
+  mountTab();
+}
+function mountTab(){
+  var el = $("#tabBody");
+  if (S.tab === "learn") mountLearn(el);
+  else if (S.tab === "cards") mountCards(el);
+  else if (S.tab === "quiz") mountQuiz(el, { list: shuffle(CH[S.ch].quiz.slice()), id: CH[S.ch].id, title: "Bài tập chương " + CH[S.ch].id, intro: "Nhiều câu trắc nghiệm (MCQ), đúng–sai và tính toán. Thứ tự xáo mỗi lần. MCQ/SA đúng: 100 điểm; mỗi ý đúng–sai: 25 điểm.", reshuffle: function(){ return shuffle(CH[S.ch].quiz.slice()); } });
+  else if (S.tab === "lab") mountLab(el);
+}
+
+/* ---------- learn ---------- */
+function mountLearn(el){
+  var ch = CH[S.ch];
+  el.innerHTML = ch.lessons.map(function(l, i){
+    return '<details class="card"'+(i===0?' open':'')+'><summary>'+l.t+'</summary><div class="lb">'+l.h+'</div></details>';
+  }).join("") + '<div class="row"><button class="btn" type="button" id="toCards">Sang ôn nhanh</button></div>';
+  $("#toCards").onclick = function(){ S.tab = "cards"; renderChapter(); };
+}
+
+/* ---------- cards ---------- */
+function mountCards(el){
+  var ch = CH[S.ch], p = cp(ch.id), mode = "deck";
+  function head(){
+    return '<div class="seg"><button class="chip" type="button" data-m="deck" aria-pressed="'+(mode==="deck")+'">Thẻ ghi nhớ</button><button class="chip" type="button" data-m="match" aria-pressed="'+(mode==="match")+'">Ghép cặp</button></div>';
+  }
+  function bindHead(){
+    el.querySelectorAll("[data-m]").forEach(function(b){ b.onclick = function(){ mode = b.getAttribute("data-m"); start(); }; });
+  }
+  function start(){ if (mode === "deck") deck(); else match(); }
+
+  function deck(){
+    var queue = shuffle(ch.cards.map(function(_, i){ return i; })), pos = 0, flipped = false, again = {}, knownNow = 0;
+    function draw(){
+      if (pos >= queue.length) return done();
+      var c = ch.cards[queue[pos]];
+      el.innerHTML = head() +
+        '<div class="prog"><i style="width:'+Math.round(pos/queue.length*100)+'%"></i></div>' +
+        '<p class="hint">Thẻ '+(pos+1)+'/'+queue.length+' · Chạm vào thẻ để lật</p>' +
+        '<button class="fc'+(flipped?' back':'')+'" type="button" id="fc"><div>'+(flipped ? c[1] : c[0])+'<small>'+(flipped ? "Đáp án" : "Câu hỏi")+'</small></div></button>' +
+        '<div class="row"><button class="btn ghost" type="button" id="no"'+(flipped?'':' disabled')+'>Chưa nhớ</button><button class="btn" type="button" id="yes"'+(flipped?'':' disabled')+'>Đã nhớ</button></div>';
+      bindHead();
+      $("#fc").onclick = function(){ flipped = !flipped; draw(); };
+      $("#yes").onclick = function(){
+        var idx = queue[pos];
+        if (!p.known[idx]) { p.known[idx] = true; addXp(10); }
+        knownNow++; pos++; flipped = false; draw();
+      };
+      $("#no").onclick = function(){
+        var idx = queue[pos];
+        if (!again[idx]) { again[idx] = true; queue.push(idx); }
+        pos++; flipped = false; draw();
+      };
+    }
+    function done(){
+      var kn = Object.keys(p.known).length;
+      el.innerHTML = head() + '<div class="card"><h3>Hết bộ thẻ</h3><p>Bạn đã nhớ '+kn+'/'+ch.cards.length+' thẻ của chương này.</p><div class="row"><button class="btn" type="button" id="again">Ôn lại</button><button class="btn ghost" type="button" id="toQuiz">Làm bài tập</button></div></div>';
+      bindHead();
+      $("#again").onclick = deck;
+      $("#toQuiz").onclick = function(){ S.tab = "quiz"; renderChapter(); };
+    }
+    draw();
+  }
+
+  function match(){
+    var picks = shuffle(ch.cards.map(function(_, i){ return i; })).slice(0, 5);
+    var left = shuffle(picks), right = shuffle(picks), sel = null, doneSet = {}, misses = 0;
+    function draw(){
+      el.innerHTML = head() + '<p class="hint">Chạm một ý bên trái rồi chạm đáp án tương ứng bên phải.</p><div class="mg"><div class="mgc" id="ml"></div><div class="mgc" id="mr"></div></div><p class="hint" id="mmsg"></p>';
+      bindHead();
+      var L = $("#ml"), R = $("#mr");
+      L.style.display = R.style.display = "grid"; L.style.gap = R.style.gap = "8px"; L.style.alignContent = R.style.alignContent = "start";
+      left.forEach(function(i){
+        var b = document.createElement("button"); b.type = "button"; b.className = "mi" + (doneSet[i] ? " done" : "") + (sel === i ? " sel" : "");
+        b.innerHTML = ch.cards[i][0]; b.disabled = !!doneSet[i];
+        b.onclick = function(){ sel = i; draw(); };
+        L.appendChild(b);
+      });
+      right.forEach(function(i){
+        var b = document.createElement("button"); b.type = "button"; b.className = "mi" + (doneSet[i] ? " done" : "");
+        b.innerHTML = ch.cards[i][1]; b.disabled = !!doneSet[i];
+        b.onclick = function(){
+          if (sel === null) { $("#mmsg").textContent = "Hãy chọn một ý ở cột bên trái trước."; return; }
+          if (sel === i) {
+            doneSet[i] = true; sel = null;
+            if (Object.keys(doneSet).length === picks.length) return finish();
+            draw();
+          } else {
+            misses++; b.classList.add("bad"); $("#mmsg").textContent = "Chưa khớp, thử lại nhé.";
+          }
+        };
+        R.appendChild(b);
+      });
+    }
+    function finish(){
+      var gain = Math.max(10, 50 - misses * 10); addXp(gain);
+      el.innerHTML = head() + '<div class="card"><h3>Ghép xong</h3><p>Bạn ghép sai '+misses+' lần và nhận '+gain+' điểm.</p><div class="row"><button class="btn" type="button" id="more">Ván khác</button></div></div>';
+      bindHead(); $("#more").onclick = match;
+    }
+    draw();
+  }
+  start();
+}
+
+/* ---------- quiz ---------- */
+function mountQuiz(el, cfg){
+  var st = { i:0, xp:0, right:0, max:cfg.list.length * 100 };
+  function intro(){
+    el.innerHTML = '<div class="card"><h3>'+cfg.title+'</h3><p>'+cfg.intro+'</p><button class="btn" type="button" id="qs">Bắt đầu</button></div>';
+    $("#qs").onclick = function(){ st.i = 0; st.xp = 0; st.right = 0; show(); };
+  }
+  function show(){
+    if (st.i >= cfg.list.length) return end();
+    var q = cfg.list[st.i];
+    var partLabel = q.part ? (' · Phần '+q.part) : '';
+    var partHint = q.part==="I" ? "Trắc nghiệm nhiều phương án" : q.part==="II" ? "Đúng / Sai" : q.part==="III" ? "Trả lời ngắn" : "";
+    el.innerHTML = '<div class="card"><div class="qmeta"><span>Câu '+(st.i+1)+'/'+cfg.list.length+partLabel+(partHint?' · '+partHint:'')+'</span><span>Điểm: '+st.xp+'</span></div><div class="qtext">'+q.q+'</div><div id="qbox"></div><div id="qfb"></div></div>';
+    var box = $("#qbox");
+    if (q.t === "mcq") mcq(q, box); else if (q.t === "tf") tf(q, box); else sa(q, box);
+  }
+  function finishQ(gain, all, html){
+    st.xp += gain; addXp(gain);
+    if (all) { st.right++; streakUp(); } else { streakReset(); }
+    var last = st.i >= cfg.list.length - 1;
+    $("#qfb").innerHTML = '<div class="fb '+(all?'ok':'bad')+'">'+html+'</div><div class="row"><button class="btn" type="button" id="qn">'+(last?"Xem kết quả":"Câu tiếp")+'</button></div>';
+    $("#qn").onclick = function(){ st.i++; show(); };
+    $("#qn").focus();
+  }
+  function mcq(q, box){
+    var opts = shuffle(q.o.map(function(t, k){ return { t:t, ok:k === q.a }; })), locked = false;
+    box.className = "opts";
+    opts.forEach(function(o, idx){
+      var b = document.createElement("button"); b.type = "button"; b.className = "opt";
+      b.innerHTML = '<span class="k">'+"ABCD"[idx]+'</span><span>'+o.t+'</span>';
+      b.onclick = function(){
+        if (locked) return; locked = true;
+        var btns = box.children;
+        for (var k=0;k<btns.length;k++){ btns[k].disabled = true; if (opts[k].ok) btns[k].classList.add("ok"); }
+        if (!o.ok) b.classList.add("bad");
+        finishQ(o.ok ? 100 : 0, o.ok, '<b>'+(o.ok ? "Chính xác. " : "Chưa đúng. ")+'</b>'+q.e);
+      };
+      box.appendChild(b);
+    });
+  }
+  function tf(q, box){
+    var ans = q.s.map(function(){ return null; });
+    box.innerHTML = q.s.map(function(s, i){
+      return '<div class="tfr" data-i="'+i+'"><div>'+"abcd"[i]+') '+s.x+'</div><div class="tg"><button type="button" data-v="1" aria-pressed="false">Đúng</button><button type="button" data-v="0" aria-pressed="false">Sai</button></div><div class="ex"></div></div>';
+    }).join("") + '<button class="btn" type="button" id="tfc" disabled>Kiểm tra</button>';
+    var rows = box.querySelectorAll(".tfr"), chk = $("#tfc"), locked = false;
+    rows.forEach(function(r, i){
+      r.querySelectorAll("button").forEach(function(b){
+        b.onclick = function(){
+          if (locked) return;
+          ans[i] = b.getAttribute("data-v") === "1";
+          r.querySelectorAll("button").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+          chk.disabled = ans.some(function(a){ return a === null; });
+        };
+      });
+    });
+    chk.onclick = function(){
+      locked = true; chk.classList.add("hidden");
+      var right = 0;
+      q.s.forEach(function(s, i){
+        var ok = ans[i] === s.v; if (ok) right++;
+        rows[i].classList.add(ok ? "ok" : "bad");
+        rows[i].querySelector(".ex").innerHTML = (ok ? "Đúng. " : "Chưa đúng. ") + s.e;
+        rows[i].querySelectorAll("button").forEach(function(x){ x.disabled = true; });
+      });
+      finishQ(right * 25, right === q.s.length, '<b>Bạn đúng '+right+'/'+q.s.length+' ý.</b> Xem giải thích ở từng ý phía trên.');
+    };
+  }
+  function sa(q, box){
+    box.innerHTML = '<div class="sa"><input id="sai" type="text" inputmode="decimal" autocomplete="off" placeholder="Nhập đáp số"><button class="btn" type="button" id="sac">Kiểm tra</button></div><p class="hint">Có thể dùng dấu phẩy hoặc dấu chấm cho số thập phân.</p>';
+    var inp = $("#sai"), btn = $("#sac"), locked = false;
+    function check(){
+      if (locked) return;
+      var v = parseFloat(inp.value.replace(",", "."));
+      if (isNaN(v)) { inp.focus(); return; }
+      locked = true; inp.disabled = true; btn.disabled = true;
+      var ok = Math.abs(v - q.a) <= (q.tol || 0.01);
+      finishQ(ok ? 100 : 0, ok, '<b>'+(ok ? "Chính xác. " : "Chưa đúng, đáp số là " + String(q.a).replace(".", ",") + ". ")+'</b>'+q.e);
+    }
+    btn.onclick = check;
+    inp.onkeydown = function(e){ if (e.key === "Enter") check(); };
+    inp.focus();
+  }
+  function end(){
+    var pct = Math.round(st.xp / st.max * 100);
+    if (String(cfg.id).indexOf("exam-") === 0) {
+      if (!P.exams) P.exams = {};
+      var eid = cfg.id.slice(5);
+      if (!P.exams[eid] || pct > P.exams[eid]) P.exams[eid] = pct;
+      if (pct > (P.mix||0)) P.mix = pct;
+    } else {
+      var p = cp(cfg.id); if (pct > p.quiz) p.quiz = pct;
+    }
+    save();
+    var msg = pct >= 80 ? "Rất tốt, bạn nắm chắc phần này." : pct >= 50 ? "Khá ổn. Xem lại các câu sai ở phần Nền tảng rồi làm lại." : "Hãy đọc lại phần Nền tảng và ôn thẻ trước khi làm lại.";
+    var isExam = String(cfg.id).indexOf("exam-") === 0;
+    el.innerHTML = '<div class="card"><div class="big">'+pct+'%</div><p>Bạn đúng '+st.right+'/'+cfg.list.length+' câu và được '+st.xp+'/'+st.max+' điểm. '+msg+'</p><div class="row"><button class="btn" type="button" id="qa">Làm lại</button>' +
+      (isExam ? '<button class="btn ghost" type="button" id="qh">Chọn đề khác</button><button class="btn ghost" type="button" id="homeBtn">Về trang chủ</button>' : '<button class="btn ghost" type="button" id="ql">Sang phòng lab</button>') + '</div></div>';
+    $("#qa").onclick = function(){ cfg.reshuffle && (cfg.list = cfg.reshuffle()); st.max = cfg.list.length * 100; st.i = 0; st.xp = 0; st.right = 0; show(); };
+    if (isExam) {
+      $("#qh").onclick = function(){ S.examId = null; renderMix(); };
+      $("#homeBtn").onclick = function(){ go("home"); };
+    } else $("#ql").onclick = function(){ S.tab = "lab"; renderChapter(); };
+  }
+  intro();
+}
+
+/* ---------- đề cuối kỳ form 3 phần ---------- */
+function examToList(ex){
+  var list = [];
+  (ex.p1||[]).forEach(function(q){ list.push({ t:"mcq", q:q.q, o:q.o, a:q.a, e:q.e, part:"I" }); });
+  (ex.p2||[]).forEach(function(q){ list.push({ t:"tf", q:q.q, s:q.s, part:"II" }); });
+  (ex.p3||[]).forEach(function(q){ list.push({ t:"sa", q:q.q, a:q.a, tol:q.tol, e:q.e, part:"III" }); });
+  return list;
+}
+function renderMix(){
+  if (!P.exams) P.exams = {};
+  if (S.examId) {
+    var ex = null;
+    for (var i=0;i<EXAMS.length;i++) if (EXAMS[i].id === S.examId) { ex = EXAMS[i]; break; }
+    if (!ex) { S.examId = null; return renderMix(); }
+    var list = examToList(ex);
+    app.innerHTML = '<div style="--ac:var(--gold);--acink:#2a1a00"><button class="link" type="button" id="back">‹ Chọn đề khác</button><div class="chhead"><div class="tile">∑</div><div><h2>'+ex.name+' · '+ex.level+'</h2><p>Phần I MCQ · Phần II Đúng/Sai · Phần III Trả lời ngắn</p></div></div><div id="tabBody" style="margin-top:14px"></div></div>';
+    $("#back").onclick = function(){ S.examId = null; renderMix(); };
+    mountQuiz($("#tabBody"), {
+      list: list,
+      id: "exam-"+ex.id,
+      title: "ĐỀ ÔN TẬP CUỐI HK1 · "+ex.name,
+      intro: ex.intro+"<br><br><b>Phần I</b> — Trắc nghiệm nhiều phương án (mỗi câu 100 điểm).<br><b>Phần II</b> — Đúng/Sai nhiều ý (mỗi ý đúng 25 điểm).<br><b>Phần III</b> — Trả lời ngắn (mỗi câu 100 điểm).",
+      reshuffle: function(){ return examToList(ex); }
+    });
+    return;
+  }
+  var h = '<div style="--ac:var(--gold);--acink:#2a1a00"><button class="link" type="button" id="back">‹ Tất cả chương</button><div class="chhead"><div class="tile">∑</div><div><h2>Đề cuối kỳ học kỳ I</h2><p>Form đề thật · 3 phần · chọn đề để làm</p></div></div><div class="grid" style="margin-top:14px">';
+  EXAMS.forEach(function(ex){
+    var sc = P.exams[ex.id];
+    var n1=(ex.p1||[]).length, n2=(ex.p2||[]).length, n3=(ex.p3||[]).length;
+    h += '<button class="cc" type="button" data-ex="'+ex.id+'" style="--ac:var(--gold);--acink:#2a1a00">' +
+      '<div class="tile">'+ex.id.replace("hk","")+'</div>' +
+      '<div><h3>'+ex.name+' · '+ex.level+'</h3><div class="sub">I: '+n1+' MCQ · II: '+n2+' Đ/S · III: '+n3+' TL ngắn</div><div class="pg">'+(sc != null ? "Cao nhất: "+sc+"%" : "Chưa làm")+'</div></div></button>';
+  });
+  h += '</div><p class="note">Cấu trúc giống đề thi: Phần I (nhiều phương án) → Phần II (đúng/sai) → Phần III (trả lời ngắn). Điểm từng đề lưu trên thiết bị.</p>';
+  app.innerHTML = h;
+  $("#back").onclick = function(){ go("home"); };
+  app.querySelectorAll("[data-ex]").forEach(function(b){
+    b.onclick = function(){ S.examId = b.getAttribute("data-ex"); renderMix(); };
+  });
+}
+
+/* ---------- lab ---------- */
+function classifyOutcome(text){
+  var t = text, o = { liquid:null, ppt:null, gas:false, mirror:false, litmus:null, none:false };
+  if (/quỳ tím hóa đỏ/i.test(t)) o.litmus = "red";
+  else if (/quỳ tím hóa xanh/i.test(t)) o.litmus = "blue";
+  else if (/quỳ tím( không đổi màu| không đổi)/i.test(t)) o.litmus = "none";
+  if (/xanh tím/i.test(t)) o.liquid = "violet";
+  else if (/xanh lam/i.test(t)) o.liquid = "blue";
+  if (/kết tủa vàng/i.test(t)) o.ppt = "yellow";
+  else if (/đỏ gạch/i.test(t)) o.ppt = "brick";
+  else if (/kết tủa trắng|trắng đục|trắng(?!.*không)/i.test(t)) o.ppt = "white";
+  else if (/kết tủa xanh/i.test(t)) o.ppt = "blue";
+  else if (/vón cục|đông tụ/i.test(t)) o.ppt = "curd";
+  if (/sủi bọt|có khí/i.test(t)) o.gas = true;
+  if (/bạc sáng bóng|lớp bạc|bám thành/i.test(t)) o.mirror = true;
+  if (/tách thành hai lớp|không tan\b/i.test(t)) o.liquid = o.liquid || "layer";
+  else if (/tan (hoàn toàn|dần)|tan,/i.test(t) && !o.ppt) o.liquid = o.liquid || "clear";
+  if (t === NOP && !o.litmus) o.none = true;
+  return o;
+}
+function swatchColor(o){
+  if (!o || o.none) return null;
+  if (o.mirror) return "#C9C9C9";
+  if (o.ppt === "yellow") return "#F3C61B";
+  if (o.ppt === "brick") return "#B14523";
+  if (o.ppt === "white") return "#CBD6D3";
+  if (o.ppt === "blue") return "#1E52C9";
+  if (o.ppt === "curd") return "#D8C99A";
+  if (o.liquid === "blue") return "#1858D6";
+  if (o.liquid === "violet") return "#3F208C";
+  if (o.litmus === "red") return "#D8435A";
+  if (o.litmus === "blue") return "#2F6FC7";
+  if (o.gas) return "#6FB8C4";
+  return "var(--muted)";
+}
+function bubbleHtml(n){
+  var s = "";
+  for (var i=0;i<n;i++){
+    var left = 15 + Math.random()*70, delay = (Math.random()*1.2).toFixed(2), size = (4+Math.random()*3).toFixed(1);
+    s += '<span class="bub-p" style="left:'+left.toFixed(0)+'%;width:'+size+'px;height:'+size+'px;animation-delay:'+delay+'s"></span>';
+  }
+  return s;
+}
+function glassHtml(k, state, justPoured){
+  var liq = state && state.o ? state.o : null;
+  var liquidCls = "liquid" + (liq ? " filled" : "") + (liq && liq.liquid ? " c-" + liq.liquid : (liq ? " c-clear" : ""));
+  var pptCls = "ppt" + (liq && liq.ppt ? " show p-" + liq.ppt : "");
+  var mirrorCls = "mirror" + (liq && liq.mirror ? " show" : "");
+  var litmusCls = "litmus" + (liq && liq.litmus === "red" ? " lit-red" : liq && liq.litmus === "blue" ? " lit-blue" : "");
+  return '<div class="vlabel">Lọ '+["A","B","C"][k]+'</div><div class="glasswrap">' +
+    (liq && liq.litmus ? '<div class="'+litmusCls+'"></div>' : '') +
+    '<div class="glass'+(justPoured?' pour':'')+'"><div class="'+liquidCls+'"></div><div class="'+pptCls+'"></div><div class="'+mirrorCls+'"></div>' +
+    (liq && liq.gas ? '<div class="bubbles">'+bubbleHtml(5)+'</div>' : '') +
+    '<div class="gloss"></div></div></div>';
+}
+function mountLab(el){
+  var ch = CH[S.ch], lab = ch.lab, labels = ["A","B","C"];
+  var order = shuffle([0,1,2]);
+  var used = {}, expLog = [], hist = [[],[],[]], uses = 0, wrong = 0, solved = false, guess = [-1,-1,-1], msg = "", justPoured = false;
+  function draw(){
+    var h = '<div class="card" style="--ac:'+ch.ac+';--acink:'+ch.acink+'"><h3>'+lab.title+'</h3><p class="labintro">'+lab.intro+'</p>' +
+      '<div class="vials">' + labels.map(function(l,k){
+        var cur = hist[k].length ? hist[k][hist[k].length-1] : null;
+        var dots = hist[k].map(function(x){ var c = swatchColor(x.o); return '<i class="'+(c?'':'o-none')+'" style="'+(c?'background:'+c:'')+'" title="'+x.reagent+'"></i>'; }).join("");
+        return '<div class="vial">'+glassHtml(k, cur, justPoured) +
+          '<div class="vnote">'+(cur ? '<span class="rn">'+cur.reagent+'</span>'+cur.text : "Chưa thử thuốc thử nào") + '</div>' +
+          (hist[k].length ? '<div class="vdots">'+dots+'</div>' : '') +
+        '</div>';
+      }).join("") + '</div>' +
+      '<h4>Thuốc thử</h4><div class="rgs">' + lab.reagents.map(function(r, i){ return '<button class="rg" type="button" data-r="'+i+'"'+(used[i]||solved?' disabled':'')+'>'+r.n+'</button>'; }).join("") + '</div>' +
+      '<p class="hint">Chọn một thuốc thử để nhỏ vào cả ba lọ cùng lúc. Càng dùng ít thuốc thử, điểm càng cao.</p>';
+    justPoured = false;
+    if (expLog.length) {
+      h += '<h4>Nhật ký thí nghiệm</h4><div class="explog">' + expLog.map(function(i, idx){
+        var r = lab.reagents[i];
+        var cells = order.map(function(si,k){
+          var t = r.r[si], o = classifyOutcome(t), c = swatchColor(o), text = t === NOP ? "không có hiện tượng" : t.replace(/<[^>]+>/g,"");
+          return '<div class="expcell"><i class="'+(c?'':'o-none')+'" style="'+(c?'background:'+c:'')+'"></i><b>Lọ '+labels[k]+':</b> '+text+'</div>';
+        }).join("");
+        return '<div class="expitem"><div class="expname"><span class="seq">'+(idx+1)+'</span>'+r.n+'</div><div class="expgrid">'+cells+'</div></div>';
+      }).join("") + '</div>';
+    }
+    h += '<h4>Xác nhận nhãn</h4><div class="asg">' + labels.map(function(l, k){
+      return '<label for="g'+k+'"><b>Lọ '+l+'</b></label><select id="g'+k+'"'+(solved?' disabled':'')+'><option value="-1">Chọn chất…</option>' +
+        lab.samples.map(function(s, si){ return '<option value="'+si+'"'+(guess[k]===si?' selected':'')+'>'+s.replace(/<[^>]+>/g,"")+'</option>'; }).join("") + '</select>';
+    }).join("") + '</div>';
+    if (!solved) h += '<button class="btn" type="button" id="lchk">Kiểm tra</button>';
+    if (msg) h += '<div class="fb '+(solved?'ok':'bad')+'">'+msg+'</div>';
+    if (solved) h += '<div class="row"><button class="btn" type="button" id="lagain">Chơi lại</button></div>';
+    h += '</div>';
+    el.innerHTML = h;
+    el.querySelectorAll(".rg").forEach(function(b){
+      b.onclick = function(){
+        var i = parseInt(b.getAttribute("data-r"),10), r = lab.reagents[i];
+        used[i] = true; expLog.push(i); uses++; msg = ""; justPoured = true;
+        order.forEach(function(si, k){
+          var text = r.r[si];
+          hist[k].push({ reagent: r.n, text: text === NOP ? "Không có hiện tượng" : text.replace(/<[^>]+>/g,""), o: classifyOutcome(text) });
+        });
+        draw();
+      };
+    });
+    labels.forEach(function(_, k){ $("#g"+k).onchange = function(e){ guess[k] = parseInt(e.target.value,10); }; });
+    var c = $("#lchk");
+    if (c) c.onclick = function(){
+      if (guess.some(function(g){ return g < 0; })) { msg = "Hãy chọn chất cho cả ba lọ."; draw(); return; }
+      if (uses === 0) { msg = "Hãy làm ít nhất một thí nghiệm trước khi kết luận."; draw(); return; }
+      if (guess.slice().sort().join() !== "0,1,2") { msg = "Mỗi chất chỉ ứng với một lọ. Kiểm tra lại các lựa chọn."; draw(); return; }
+      var ok = guess.every(function(g, k){ return g === order[k]; });
+      if (ok) {
+        solved = true;
+        var score = Math.max(20, 120 - 20 * uses - 10 * wrong);
+        var p = cp(ch.id), gain = Math.max(0, score - p.lab);
+        if (score > p.lab) p.lab = score;
+        addXp(gain); streakUp();
+        msg = '<b>Chính xác. Bạn được '+score+' điểm sau '+uses+' thí nghiệm.</b><br>' + labels.map(function(l, k){ return 'Lọ '+l+': '+lab.samples[order[k]]; }).join("<br>") + '<br><br>' + lab.explain;
+      } else {
+        wrong++; streakReset();
+        msg = "Chưa đúng. Hãy xem lại các lọ và nhật ký thí nghiệm.";
+      }
+      draw();
+    };
+    var ag = $("#lagain"); if (ag) ag.onclick = function(){ mountLab(el); };
+  }
+  draw();
+}
+
+/* ---------- AI tutor as floating panel ---------- */
+var AIH = {};
+function openAIPanel(){
+  var panel = $("#aiPanel"), inner = $("#aiInner");
+  if (!panel || !inner) return;
+  var ch = (S.view === "ch" && CH[S.ch]) ? CH[S.ch] : CH[0];
+  var hist = AIH[ch.id] = AIH[ch.id] || [];
+  inner.innerHTML = '<div class="ahead"><h3>Gia sư · '+ch.name+'</h3><button class="btn ghost sm" type="button" id="aiClose">Đóng</button></div>' +
+    '<div class="abanner ready"><span class="adot"></span><span>Gợi ý cục bộ · hỏi nhanh kiến thức chương</span></div>' +
+    '<div class="alog" id="alog"></div>' +
+    '<div class="chips" id="asug"></div>' +
+    '<div class="ain"><textarea id="atext" rows="1" placeholder="Nhập câu hỏi…"></textarea><button class="btn" type="button" id="asend">Gửi</button></div>';
+  panel.classList.add("show");
+  var closeBtn = $("#aiClose");
+  if (closeBtn) closeBtn.onclick = function(){ panel.classList.remove("show"); };
+  panel.onclick = function(e){ if (e.target === panel) panel.classList.remove("show"); };
+  var log = $("#alog"), inp = $("#atext"), send = $("#asend");
+  function avatar(role){ return role === "u" ? '<div class="bavatar" style="background:var(--track);color:var(--ink)">Bạn</div>' : '<div class="bavatar">'+ch.sym+'</div>'; }
+  function bubble(cls, text){
+    if (!log) return;
+    var row = document.createElement("div"); row.className = "bubrow " + cls;
+    row.innerHTML = (cls === "a" ? avatar("a") : "") + '<div class="bub '+cls+'"></div>' + (cls === "u" ? avatar("u") : "");
+    log.appendChild(row);
+    var bub = row.querySelector(".bub");
+    if (bub) bub.textContent = text;
+    log.scrollTop = log.scrollHeight;
+  }
+  hist.forEach(function(m){ bubble(m.role === "user" ? "u" : "a", m.content); });
+  var sug = $("#asug");
+  if (sug) sug.innerHTML = (ch.ask||[]).map(function(s,i){ return '<button class="chip" type="button" data-s="'+i+'">'+s+'</button>'; }).join("");
+  inner.querySelectorAll("[data-s]").forEach(function(b){
+    b.onclick = function(){ if (inp) { inp.value = ch.ask[parseInt(b.getAttribute("data-s"),10)]; inp.focus(); } };
+  });
+  function localReply(q){
+    var ql = q.toLowerCase();
+    if (/xà phòng hóa|một chiều/.test(ql)) return "Xà phòng hóa là phản ứng thủy phân ester (hoặc chất béo) trong môi trường base. Muối carboxylate tạo thành không tham gia phản ứng ngược với alcohol, nên phản ứng một chiều (khác thủy phân acid là thuận nghịch).";
+    if (/hai muối|phenol/.test(ql)) return "Ester của phenol (ví dụ CH₃COOC₆H₅) khi đun với NaOH dư tạo hai muối: CH₃COONa và C₆H₅ONa (tỉ lệ 1:2).";
+    if (/tráng bạc|formic|hcoor/.test(ql)) return "Chỉ ester của formic acid (HCOOR) có nhóm –CHO nên cho phản ứng tráng bạc.";
+    if (/glucose|fructose|bromine|br2/.test(ql)) return "Phân biệt glucose và fructose: dùng nước bromine. Glucose (aldehyde) làm mất màu bromine; fructose (ketone) không mất màu.";
+    if (/saccharose|tráng/.test(ql)) return "Saccharose không có nhóm –CHO tự do nên không tráng bạc. Thủy phân hoàn toàn rồi mới tráng bạc (1 saccharose → 4Ag).";
+    if (/biuret/.test(ql)) return "Phản ứng biuret cho màu tím với Cu(OH)₂/OH⁻ khi có từ 2 liên kết peptide trở lên (tripeptide, polypeptide, protein). Dipeptide không đủ.";
+    if (/trùng hợp|trùng ngưng/.test(ql)) return "Trùng hợp: monomer có liên kết bội (C=C), bảo toàn khối lượng. Trùng ngưng: monomer có ≥2 nhóm chức, giải phóng H₂O (hoặc phân tử nhỏ khác).";
+    if (/lưu hóa|cao su/.test(ql)) return "Lưu hóa: đun cao su với lưu huỳnh tạo cầu nối –S–S– giữa các mạch polymer → mạng không gian, bền và đàn hồi hơn.";
+    if (/tính.*n|mắt xích|pvc/.test(ql)) return "Hệ số polymer hóa n = M(polymer) / M(mắt xích). Ví dụ PVC M = 250000, mắt xích 62,5 → n = 4000.";
+    return "Bạn có thể hỏi cụ thể hơn về: " + (ch.ask||[]).join("; ") + ". Hoặc xem lại phần Nền tảng và Ôn nhanh của chương này nhé!";
+  }
+  function sendMsg(){
+    if (!inp) return;
+    var q = inp.value.trim(); if (!q) return;
+    hist.push({ role:"user", content:q }); bubble("u", q); inp.value = "";
+    setTimeout(function(){ var ans = localReply(q); hist.push({ role:"assistant", content:ans }); bubble("a", ans); }, 350);
+  }
+  if (send) send.onclick = sendMsg;
+  if (inp) {
+    inp.onkeydown = function(e){ if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMsg(); } };
+    setTimeout(function(){ try { inp.focus(); } catch(e){} }, 100);
+  }
+}
+
+function showLeaderboard(){
+  var modal = $("#lbModal"), inner = $("#lbInner");
+  if (!modal || !inner) return;
+  var wk = weekKey();
+  if (P.weekKey !== wk) { P.weekKey = wk; P.weekScores = []; save(); }
+  var rows = (P.weekScores||[]).slice(0,10);
+  inner.innerHTML = '<div class="ahead"><h3>🏆 Bảng xếp hạng tuần</h3><button class="btn ghost sm" type="button" id="lbClose">Đóng</button></div>' +
+    '<p class="hint" style="margin-bottom:10px">Điểm tích lũy trong tuần hiện tại · lưu trên thiết bị</p>' +
+    (rows.length ? rows.map(function(r,i){
+      return '<div class="lbrow"><span class="rank">#'+(i+1)+'</span><span class="nm">'+r.name+'</span><span class="pts">'+r.pts+' điểm</span></div>';
+    }).join("") : '<p class="muted">Chưa có dữ liệu tuần này. Làm bài để ghi danh!</p>') +
+    '<div class="row" style="margin-top:14px"><button class="btn ghost sm" type="button" id="lbClear">Xóa bảng tuần</button></div>';
+  modal.classList.add("show");
+  var lbClose = $("#lbClose"), lbClear = $("#lbClear");
+  if (lbClose) lbClose.onclick = function(){ modal.classList.remove("show"); };
+  modal.onclick = function(e){ if (e.target === modal) modal.classList.remove("show"); };
+  if (lbClear) lbClear.onclick = function(){
+    if (confirm("Xóa điểm tuần hiện tại trên thiết bị?")) { P.weekScores = []; save(); showLeaderboard(); }
+  };
+}
+
+function setFabVisible(v){
+  var s=$("#fabSearch");
+  if(s) s.style.display = v ? "" : "none";
+}
+function showNameGate(){
+  var gate = $("#nameGate");
+  if (!gate) return;
+  gate.style.display = "flex";
+  setFabVisible(false);
+  var inp = $("#nameInp");
+  if (P.name && inp) inp.value = P.name;
+  function ok(){
+    if (!inp) return;
+    var n = (inp.value || "").trim();
+    if (!n || n.length < 1) { inp.focus(); return; }
+    P.name = n.slice(0,24); save();
+    gate.style.display = "none";
+    setFabVisible(true);
+    checkDayStreak();
+    setHud();
+    render();
+  }
+  var goBtn = $("#nameGo");
+  if (goBtn) goBtn.onclick = ok;
+  if (inp) {
+    inp.onkeydown = function(e){ if (e.key === "Enter") ok(); };
+    setTimeout(function(){ try { inp.focus(); } catch(e){} }, 80);
+  }
+}
+
+/* ---------- molecule background (from File 2) ---------- */
+var moleculesData = [
+  { id:"benzene", name:"Vòng Benzene", formula:"C₆H₆", desc:"Cấu trúc hydrocacbon thơm cơ bản, độ bền vững cao nhờ hệ liên kết pi liên hợp.",
+    svg:'<svg width="100" height="100" viewBox="-50 -50 100 100"><polygon points="0,-38 33,-19 33,19 0,38 -33,19 -33,-19" fill="none" stroke="#55e6df" stroke-width="2"/><circle cx="0" cy="0" r="20" fill="none" stroke="#55e6df" stroke-width="1.3" stroke-dasharray="3,2"/><circle cx="0" cy="-38" r="3.5"/><circle cx="33" cy="-19" r="3.5"/><circle cx="33" cy="19" r="3.5"/><circle cx="0" cy="38" r="3.5"/><circle cx="-33" cy="19" r="3.5"/><circle cx="-33" cy="-19" r="3.5"/></svg>' },
+  { id:"ester", name:"Nhóm chức Ester", formula:"R–COO–R'", desc:"Hợp chất hữu cơ có mùi thơm đặc trưng, ứng dụng làm hương liệu, dung môi.",
+    svg:'<svg width="110" height="70" viewBox="-5 -15 110 70"><line x1="0" y1="22" x2="25" y2="22" stroke="#55e6df"/><line x1="25" y1="22" x2="42" y2="2" stroke="#55e6df"/><line x1="28" y1="20" x2="45" y2="0" stroke="#55e6df"/><line x1="25" y1="22" x2="48" y2="40" stroke="#55e6df"/><line x1="48" y1="40" x2="75" y2="40" stroke="#55e6df"/><circle cx="0" cy="22" r="4"/><circle cx="25" cy="22" r="5"/><circle cx="43" cy="1" r="4"/><circle cx="48" cy="40" r="5"/><circle cx="75" cy="40" r="4"/><text x="-6" y="38" fill="#a5f3fc" font-size="10">R</text><text x="40" y="-6" fill="#a5f3fc" font-size="10">O</text><text x="44" y="55" fill="#a5f3fc" font-size="10">O</text><text x="80" y="44" fill="#a5f3fc" font-size="10">R\'</text></svg>' },
+  { id:"aminoacid", name:"Glycine (Amino Acid)", formula:"H₂N–CH₂–COOH", desc:"Amino acid đơn giản nhất, đơn vị cấu tạo nên peptide và protein.",
+    svg:'<svg width="120" height="70" viewBox="-5 -15 120 70"><line x1="8" y1="22" x2="32" y2="22" stroke="#55e6df"/><line x1="32" y1="22" x2="58" y2="22" stroke="#55e6df"/><line x1="58" y1="22" x2="76" y2="2" stroke="#55e6df"/><line x1="61" y1="20" x2="79" y2="0" stroke="#55e6df"/><line x1="58" y1="22" x2="80" y2="40" stroke="#55e6df"/><circle cx="8" cy="22" r="5"/><circle cx="32" cy="22" r="4"/><circle cx="58" cy="22" r="5"/><circle cx="77" cy="1" r="4"/><circle cx="80" cy="40" r="4"/><text x="-2" y="38" fill="#a5f3fc" font-size="10">N</text><text x="73" y="-6" fill="#a5f3fc" font-size="10">O</text><text x="76" y="55" fill="#a5f3fc" font-size="10">OH</text></svg>' },
+  { id:"glucose", name:"Mạch Glucose (dạng vòng)", formula:"C₆H₁₂O₆", desc:"Monosaccharide quan trọng nhất, cung cấp năng lượng chính cho cơ thể.",
+    svg:'<svg width="100" height="90" viewBox="-42 -42 84 84"><polygon points="-25,-15 0,-30 25,-15 25,15 0,30 -25,15" fill="none" stroke="#55e6df" stroke-width="1.6"/><circle cx="-25" cy="-15" r="3.5"/><circle cx="0" cy="-30" r="4"/><circle cx="25" cy="-15" r="3.5"/><circle cx="25" cy="15" r="3.5"/><circle cx="0" cy="30" r="3.5"/><circle cx="-25" cy="15" r="3.5"/><line x1="25" y1="-15" x2="38" y2="-26" stroke="#55e6df"/><circle cx="38" cy="-26" r="3"/><text x="-4" y="-34" fill="#a5f3fc" font-size="10">O</text></svg>' },
+  { id:"ethanol", name:"Ethanol", formula:"C₂H₅OH", desc:"Alcohol được sản xuất bằng phương pháp lên men tinh bột hoặc đường.",
+    svg:'<svg width="90" height="60" viewBox="0 0 90 60"><line x1="12" y1="30" x2="38" y2="30" stroke="#55e6df"/><line x1="38" y1="30" x2="64" y2="30" stroke="#55e6df"/><circle cx="12" cy="30" r="4"/><circle cx="38" cy="30" r="4"/><circle cx="64" cy="30" r="5"/><text x="8" y="48" fill="#a5f3fc" font-size="10">C</text><text x="34" y="48" fill="#a5f3fc" font-size="10">C</text><text x="58" y="48" fill="#a5f3fc" font-size="10">OH</text></svg>' },
+  { id:"polymer", name:"Mắt xích PE", formula:"(–CH₂–CH₂–)ₙ", desc:"Polymer dẻo phổ biến, điều chế từ phản ứng trùng hợp ethylene.",
+    svg:'<svg width="110" height="60" viewBox="0 0 110 60"><line x1="4" y1="30" x2="25" y2="30" stroke="#55e6df" stroke-dasharray="3,2"/><line x1="25" y1="30" x2="50" y2="30" stroke="#55e6df"/><line x1="50" y1="30" x2="75" y2="30" stroke="#55e6df"/><line x1="75" y1="30" x2="96" y2="30" stroke="#55e6df" stroke-dasharray="3,2"/><circle cx="25" cy="30" r="4"/><circle cx="50" cy="30" r="4"/><circle cx="75" cy="30" r="4"/><text x="20" y="48" fill="#a5f3fc" font-size="9">CH₂</text><text x="45" y="48" fill="#a5f3fc" font-size="9">CH₂</text><text x="85" y="34" fill="#a5f3fc" font-size="11">n</text></svg>' }
+];
+
+var chemNodes = [];
+var mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+var tiltX = 0, tiltY = 0;
+
+function initChemBackground(){
+  var container = document.getElementById("chemBg");
+  if (!container) return;
+  container.innerHTML = "";
+  chemNodes.length = 0;
+  var count = Math.min(moleculesData.length, Math.floor(window.innerWidth / 180) + 2);
+  for (var i = 0; i < count; i++) {
+    var data = moleculesData[i % moleculesData.length];
+    var el = document.createElement("div");
+    el.className = "chem-node";
+    el.innerHTML = data.svg;
+    var x = Math.random() * (window.innerWidth - 100);
+    var y = Math.random() * (window.innerHeight - 100);
+    var node = {
+      el: el, data: data, x: x, y: y,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      vr: (Math.random() - 0.5) * 0.12,
+      rot: Math.random() * 360,
+      offsetX: 0, offsetY: 0
+    };
+    el.addEventListener("click", function(n){
+      return function(e){ e.stopPropagation(); showPopover(n, e.clientX, e.clientY); };
+    }(node));
+    container.appendChild(el);
+    chemNodes.push(node);
+  }
+}
+
+function animateChemBackground(){
+  var width = window.innerWidth, height = window.innerHeight;
+  chemNodes.forEach(function(node){
+    node.x += node.vx;
+    node.y += node.vy;
+    node.rot += node.vr;
+    if (node.x < -20 || node.x > width - 70) node.vx *= -1;
+    if (node.y < -20 || node.y > height - 70) node.vy *= -1;
+    var dx = mouseX - (node.x + 40);
+    var dy = mouseY - (node.y + 40);
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    var pushX = 0, pushY = 0;
+    if (dist < 160) {
+      var force = (160 - dist) / 160;
+      pushX = -(dx / dist) * force * 16;
+      pushY = -(dy / dist) * force * 16;
+    }
+    var gyroX = tiltY * 0.6;
+    var gyroY = tiltX * 0.6;
+    node.offsetX += (pushX + gyroX - node.offsetX) * 0.05;
+    node.offsetY += (pushY + gyroY - node.offsetY) * 0.05;
+    node.el.style.transform = "translate3d(" + (node.x + node.offsetX).toFixed(1) + "px," + (node.y + node.offsetY).toFixed(1) + "px,0) rotate(" + node.rot.toFixed(1) + "deg)";
+  });
+  requestAnimationFrame(animateChemBackground);
+}
+
+window.addEventListener("mousemove", function(e){ mouseX = e.clientX; mouseY = e.clientY; });
+window.addEventListener("deviceorientation", function(e){
+  if (e.gamma !== null && e.beta !== null) { tiltX = e.gamma; tiltY = e.beta; }
+});
+
+function showPopover(node, clickX, clickY){
+  document.getElementById("popTitle").textContent = node.data.name;
+  document.getElementById("popFormula").textContent = node.data.formula;
+  document.getElementById("popDesc").textContent = node.data.desc;
+  var pop = document.getElementById("chemPopover");
+  pop.style.left = clickX + "px";
+  pop.style.top = clickY + "px";
+  pop.classList.add("show");
+}
+function hidePopover(){ document.getElementById("chemPopover").classList.remove("show"); }
+window.hidePopover = hidePopover;
+document.addEventListener("click", function(e){
+  var pop = document.getElementById("chemPopover");
+  if (pop && !pop.contains(e.target) && !e.target.closest(".chem-node")) hidePopover();
+});
+window.addEventListener("resize", function(){ initChemBackground(); });
+
+/* ---------- init ---------- */
+var fabSearch = $("#fabSearch"), btnLb = $("#btnLb");
+if (fabSearch) fabSearch.onclick = openAIPanel;
+if (btnLb) btnLb.onclick = showLeaderboard;
+
+try {
+  if (!P.name) {
+    showNameGate();
+  } else {
+    setFabVisible(true);
+    checkDayStreak();
+    setHud();
+    render();
+  }
+} catch (err) {
+  console.error("Init error:", err);
+  // fallback: still try to show home
+  try { setHud(); render(); } catch(e2){}
+}
+try { initChemBackground(); animateChemBackground(); } catch(e3){ console.warn("BG init:", e3); }
+})();
+</script>
+</body>
+</html>
